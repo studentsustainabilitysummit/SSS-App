@@ -1,4 +1,4 @@
-export default class Location{
+export default class BuildingLocation{
     constructor(id, building, room, lat, lon) {
         this.id = id;
         this.building = building;
