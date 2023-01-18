@@ -1,11 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet} from 'react-native'
 import React from 'react'
+import BuildingLocation from '../BuildingLocation';
+import { InPersonEvent } from '../Event';
+import EventListItemView from '../views/EventListItemView';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const location1 = new BuildingLocation(1, "First building", "101", 38.98598, -76.94509);
+const location2 = new BuildingLocation(2, "First building", "201", 38.98598, -76.94509);
+
+const event1 = new InPersonEvent(1, "First event", new Date(2023, 1, 18, 12, 0), new Date(2023, 1, 18, 14, 0), location1);
+const event2 = new InPersonEvent(2, "Second event", new Date(2023, 1, 18, 12, 30), new Date(2023, 1, 18, 14, 30), location2);
+const event3 = new InPersonEvent(3, "Third event", new Date(2023, 1, 18, 15, 0), new Date(2023, 1, 18, 17, 0), location2);
+const event4 = new InPersonEvent(4, "First event", new Date(2023, 1, 18, 12, 0), new Date(2023, 1, 18, 14, 0), location1);
+const event5 = new InPersonEvent(5, "Second event", new Date(2023, 1, 18, 12, 30), new Date(2023, 1, 18, 14, 30), location2);
+const event6 = new InPersonEvent(6, "Third event", new Date(2023, 1, 18, 15, 0), new Date(2023, 1, 18, 17, 0), location2);
+
+const events = [event1, event2, event3, event4, event5, event6];
+
 
 export default function ScheduleScreen() {
   return (
-    <View style={styles.container}>
-      <Text>ScheduleScreen</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList style={styles.list} data={events} renderItem={({item}) => <EventListItemView event={item} />} />
+    </SafeAreaView>
   )
 }
 
@@ -16,4 +33,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
+      list: {
+        width: '100%'
+      }
 })
