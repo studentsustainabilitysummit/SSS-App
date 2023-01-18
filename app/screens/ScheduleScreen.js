@@ -20,7 +20,7 @@ const events = [event1, event2, event3, event4, event5, event6];
 
 export default function ScheduleScreen() {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <FlatList style={styles.list} data={events} renderItem={({item}) => <EventListItemView event={item} />} />
     </SafeAreaView>
   )
