@@ -3,22 +3,36 @@ import React from 'react'
 
 export default function EventListItemView({event}) {
 
-    let {name, startTime, endTime} = event;
+    let {name, topic, startTime, endTime} = event;
 
     return (
-        <View style={styles.eventListItem}>
-        <Text>{name}</Text>
-        <Text>{startTime.toString()}</Text>
-        <Text>{endTime.toString()}</Text>
+        <View style={styles.container}>
+            <View style={{...styles.bubble, backgroundColor: topic.color}}>
+                <Text style={styles.text}>{name}</Text>
+                <Text style={styles.text}>{startTime.toString()}</Text>
+                <Text style={styles.text}>{endTime.toString()}</Text>
+            </View>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
-    eventListItem: {
+    container: {
         width: '100%',
-        height: 200,
-        backgroundColor: "blue",
+        height: 100,
+        backgroundColor: "white",
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bubble: {
+        width: '90%',
+        height: '90%',
         alignContent: 'flex-start',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+    text: {
+        paddingStart: 10,
+        paddingEnd: 10,
     },
 });
