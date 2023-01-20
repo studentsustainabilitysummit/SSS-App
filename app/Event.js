@@ -29,6 +29,39 @@ export class Event {
         }
     };
 
+    getTimeRangeString() {
+        let result = '';
+        
+        let startHours = this.startTime.getHours();
+        let startMinutes = this.startTime.getMinutes();
+        let endHours = this.endTime.getHours();
+        let endMinutes = this.endTime.getMinutes();
+
+        //Forgive me for what I am about to write
+        result += startHours > 12? startHours - 12 : startHours;
+        if(startMinutes !== 0){
+            result += ':' + startMinutes.toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false,
+            });
+        }
+        if(endHours >= 12 && startHours < 12)
+        {
+            result += startHours < 12? 'AM' : 'PM';
+        }
+        result += ' - ';
+        result += endHours > 12? endHours - 12 : endHours;
+        if(endMinutes !== 0){
+            result += ':' + endMinutes.toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false,
+            });
+        }
+        result += endHours < 12? 'AM' : 'PM';
+
+        return result;
+    }
+
 };
 
 export class InPersonEvent extends Event {

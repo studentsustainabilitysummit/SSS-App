@@ -3,14 +3,15 @@ import React from 'react'
 
 export default function EventListItemView({event}) {
 
-    let {name, theme, startTime, endTime} = event;
+    let {topic, theme, speaker} = event;
+
 
     return (
         <View style={styles.container}>
             <View style={{...styles.bubble, backgroundColor: theme.color}}>
-                <Text style={styles.text}>{name}</Text>
-                <Text style={styles.text}>{startTime.toString()}</Text>
-                <Text style={styles.text}>{endTime.toString()}</Text>
+                <Text style={styles.text}>{topic}</Text>
+                <Text style={styles.text}>{speaker}</Text>
+                <Text style={styles.text}>{event.getTimeRangeString()}</Text>
             </View>
         </View>
     )
