@@ -1,12 +1,13 @@
 export class Event {
 
-    constructor(id, theme, name, startTime, endTime){
+    constructor(id, theme, topic, speaker, startTime, endTime){
         if(this.constructor === Event) {
             throw new Error("Event class cannot be instantiated! Use InPersonEvent or OnlineEvent instead!");
         }
         this.id = id;
         this.theme = theme;
-        this.name = name;
+        this.topic = topic;
+        this.speaker = speaker;
         this.startTime = startTime;
         this.endTime = endTime;
     };
@@ -32,8 +33,8 @@ export class Event {
 
 export class InPersonEvent extends Event {
 
-    constructor(id, theme, name, startTime, endTime, location){
-        super(id, theme, name, startTime, endTime);
+    constructor(id, theme, topic, speaker, startTime, endTime, location){
+        super(id, theme, topic, speaker, startTime, endTime);
         this.location = location;
     };
 
@@ -41,8 +42,8 @@ export class InPersonEvent extends Event {
 
 export class OnlineEvent extends Event {
 
-    constructor(id, theme, name, startTime, endTime, zoom){
-        super(id, theme, name, startTime, endTime);
+    constructor(id, theme, topic, speaker, startTime, endTime, zoom){
+        super(id, theme, topic, speaker, startTime, endTime);
         this.zoom = zoom;
     }
 
