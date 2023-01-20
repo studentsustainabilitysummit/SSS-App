@@ -34,5 +34,8 @@ const styles = StyleSheet.create({
     text: {
         paddingStart: 10,
         paddingEnd: 10,
+        color: 'white',
+        fontFamily: 'LeagueSpartan',
+        fontSize: 16
     },
 });
