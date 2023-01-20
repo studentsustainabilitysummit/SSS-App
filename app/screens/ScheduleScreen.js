@@ -1,10 +1,11 @@
-import { FlatList, StyleSheet} from 'react-native'
+import { FlatList, StyleSheet, Text, View} from 'react-native'
 import React from 'react'
 import BuildingLocation from '../BuildingLocation';
 import { InPersonEvent } from '../Event';
 import EventListItemView from '../views/EventListItemView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Topic from '../Topic';
+import HeaderView from '../views/HeaderView';
 
 const location1 = new BuildingLocation(1, "First building", "101", 38.98598, -76.94509);
 const location2 = new BuildingLocation(2, "First building", "201", 38.98598, -76.94509);
@@ -22,6 +23,7 @@ const events = [event1, event2, event3, event4, event5, event6];
 export default function ScheduleScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
+      <HeaderView title={"Schedule"}/>
       <FlatList style={styles.list} data={events} renderItem={({item}) => <EventListItemView event={item} />} />
     </SafeAreaView>
   )
@@ -35,6 +37,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
       list: {
-        width: '100%'
+        width: '100%',
       }
 })
