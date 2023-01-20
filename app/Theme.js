@@ -8,6 +8,8 @@ export default class Theme extends Enum{
     static Development = new Theme("Sustainable Development", '#42e0ac');
     static Climate = new Theme("Climate Action", '#6cc743');
     static Life = new Theme("Life on Earth", '#4b892f');
+    static Workshop = new Theme("Workshop", "#b45cf7");
+    static Braindate = new Theme("Braindate", "#fa6464");
     static _ = this.closeEnum();
 
     constructor(name, color) {
