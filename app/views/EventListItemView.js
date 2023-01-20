@@ -3,11 +3,11 @@ import React from 'react'
 
 export default function EventListItemView({event}) {
 
-    let {name, topic, startTime, endTime} = event;
+    let {name, theme, startTime, endTime} = event;
 
     return (
         <View style={styles.container}>
-            <View style={{...styles.bubble, backgroundColor: topic.color}}>
+            <View style={{...styles.bubble, backgroundColor: theme.color}}>
                 <Text style={styles.text}>{name}</Text>
                 <Text style={styles.text}>{startTime.toString()}</Text>
                 <Text style={styles.text}>{endTime.toString()}</Text>
