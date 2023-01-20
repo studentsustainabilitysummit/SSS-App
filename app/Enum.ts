@@ -1,10 +1,11 @@
 export default class Enum{
 
-    static ids = 0;
-    static enumKeys: Array<number> = [];
-    static enumValues: Array<Enum> = [];
+    static enumKeys: Array<number>;
+    static enumValues: Array<Enum>;
 
     static closeEnum() {
+        this.enumKeys = [];
+        this.enumValues = [];
         for(const [key, value] of Object.entries(this))
         {
             if(key !== "ids")
@@ -25,8 +26,8 @@ export default class Enum{
 
     id: number;
 
-    constructor(){
-        this.id = ++Enum.ids;
+    constructor(id: number) {
+        this.id = id
     }
 
 };

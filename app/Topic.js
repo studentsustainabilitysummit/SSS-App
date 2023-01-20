@@ -1,6 +1,7 @@
 import Enum from "./Enum";
 
 export default class Topic extends Enum{
+    static ids = 0;
 
     static Health = new Topic("Good Health & Well-being", '#04a7e7');
     static Energy = new Topic("Affordable and Clean Energy", '#49cdee');
@@ -10,7 +11,7 @@ export default class Topic extends Enum{
     static _ = this.closeEnum();
 
     constructor(name, color) {
-        super();
+        super(++Topic.ids);
         this.name = name;
         this.color = color;
     };
