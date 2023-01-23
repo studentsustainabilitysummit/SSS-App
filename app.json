@@ -18,16 +18,36 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "org.studentsustainabilitysummit.SSSApp",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "org.studentsustainabilitysummit.SSSApp",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1803e4dc-06af-4307-bcdd-9bcb6b658c0f"
+      }
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]      
+    ]
   }
 }
