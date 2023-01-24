@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderView from '../views/HeaderView';
 import EventListView from '../views/EventListView';
@@ -8,7 +8,11 @@ import FireClient from '../FireClient';
 
 export default function ScheduleScreen() {
 
-  let events = FireClient.getInstance().allEvents;
+  const fireClient = FireClient.getInstance();
+
+  const [events, setEvents] = useState(fireClient.allEvents);
+
+  fireClient.registerAllEventsCallback(setEvents);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>

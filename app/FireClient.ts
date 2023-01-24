@@ -25,12 +25,14 @@ export default class FireClient {
     userEvents: EventList;
     themes: ThemeMap;
     locations: LocationMap;
+    allEventsCallbacks: ((EventList) => void)[];
 
     constructor() {
         this.allEvents = new EventList();
         this.userEvents = new EventList();
         this.themes = {} as ThemeMap;
         this.locations = {} as LocationMap;
+        this.allEventsCallbacks = [];
     }
 
     async init(){
@@ -92,6 +94,7 @@ export default class FireClient {
                 return undefined;
             });
             client.allEvents = eventList;
+            client.allEventsCallbacks.forEach(f => {f(eventList)});
         }
 
         await database()
@@ -105,6 +108,14 @@ export default class FireClient {
         await database()
         .ref("/InPersonEvent")
         .once("value", updateInPersonEvents);
+
+        await database()
+        .ref("/InPersonEvent")
+        .on("value", updateInPersonEvents);
+    }
+
+    registerAllEventsCallback(f: (EventList: any) => void) {
+        this.allEventsCallbacks.push(f);   
     }
 
 };
