@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^16.5.2",
+    "@react-native-firebase/database": "^16.5.2",
     "@react-navigation/bottom-tabs": "^6.5.3",
     "@react-navigation/native": "^6.1.2",
     "@types/react": "~18.0.24",
