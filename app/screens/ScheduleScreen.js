@@ -7,10 +7,13 @@ import FireClient from '../FireClient';
 
 
 export default function ScheduleScreen() {
+
+  let events = FireClient.getInstance().allEvents;
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <HeaderView title={"Schedule"}/>
-      <EventListView eventList={FireClient.getInstance().allEvents}/>
+      <EventListView eventList={events}/>
     </SafeAreaView>
   )
 }

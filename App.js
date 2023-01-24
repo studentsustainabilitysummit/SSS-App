@@ -1,20 +1,41 @@
 import MainScreen from './app/screens/MainScreen';
-import {useFonts} from 'expo-font';
 import FireClient from './app/FireClient';
+import { Component } from 'react';
+import * as Font from 'expo-font';
 
-export default function App() {
+let customFonts = {
+  LeagueSpartan: require('./app/assets/fonts/LeagueSpartan.ttf'),
+};
 
-  const [loaded] = useFonts({
-    LeagueSpartan: require('./app/assets/fonts/LeagueSpartan.ttf'),
-  });
+export default class App extends Component{
 
-  if(!loaded) {
-    return null;
+  state = {
+    fontsLoaded: false,
+    databaseLoaded: false
+  };
+
+  async _loadFontsAsync() {
+    await Font.loadAsync(customFonts);
+    this.setState({ fontsLoaded: true });
   }
 
-  FireClient.getInstance().init();
+  async _databaseLoadAsync() {
+    await FireClient.getInstance().init();
+    this.setState({ databaseLoaded: true });
+  };
 
-  return (
-    <MainScreen/>
-  );
+  componentDidMount(){
+    this._loadFontsAsync();
+    this._databaseLoadAsync();
+  }
+    
+  
+  render() {
+    if(!this.state.fontsLoaded || !this.state.databaseLoaded) {
+      return null;
+    }
+    return (
+      <MainScreen/>
+    );
+  }
 }

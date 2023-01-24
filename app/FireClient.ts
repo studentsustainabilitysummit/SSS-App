@@ -27,16 +27,18 @@ export default class FireClient {
     locations: LocationMap;
 
     constructor() {
-
+        this.allEvents = new EventList();
+        this.userEvents = new EventList();
+        this.themes = {} as ThemeMap;
+        this.locations = {} as LocationMap;
     }
 
     async init(){
 
         function updateLocations(snapshot) {
+            let client = FireClient.getInstance();
             let locations = {} as LocationMap;
-            console.log('User data: ', snapshot.val());
             snapshot.forEach(l => {
-                console.log(`User data: ${l.key}, value: ${l.val()}`);
                 if(!l.val()) {
                     return undefined;
                 }
@@ -45,14 +47,13 @@ export default class FireClient {
                 locations[id] = new BuildingLocation(id, building, room, lat, lon);
                 return undefined;
             });
-            this.locations = locations;
+            client.locations = locations;
         }
 
         function updateThemes(snapshot) {
+            let client = FireClient.getInstance();
             let themes = {} as ThemeMap;
-            console.log('User data: ', snapshot.val());
             snapshot.forEach(t => {
-                console.log(`User data: ${t.key}, value: ${t.val()}`);
                 if(!t.val()) {
                     return undefined;
                 }
@@ -61,7 +62,7 @@ export default class FireClient {
                 themes[id] = new Theme(name, color);
                 return undefined;
             });
-            this.themes = themes;
+            client.themes = themes;
         }
 
         function timeStrToDate(date: Date, string: string) {
@@ -72,10 +73,9 @@ export default class FireClient {
         }
 
         function updateInPersonEvents(snapshot) {
+            let client = FireClient.getInstance();
             let eventList = new EventList([], true);
-            console.log('User data: ', snapshot.val());
             snapshot.forEach(e => {
-                console.log(`User data: ${e.key}, value: ${e.val()}`);
                 if(!e.val()) {
                     return undefined;
                 }
@@ -87,11 +87,11 @@ export default class FireClient {
                 timeStrToDate(startDate, startTime);
                 timeStrToDate(endDate, endTime);
                 
-                eventList.addEvent(new InPersonEvent(id, this.themes[theme], topic, speaker, startDate, endDate, this.locations[location]));
+                eventList.addEvent(new InPersonEvent(id, client.themes[theme], topic, speaker, startDate, endDate, client.locations[location]));
                 
                 return undefined;
             });
-            this.allEvents = eventList;
+            client.allEvents = eventList;
         }
 
         await database()
