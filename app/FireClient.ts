@@ -35,7 +35,7 @@ export default class FireClient {
         this.allEventsCallbacks = [];
     }
 
-    async init(){
+    async getApplicationData(){
 
         function updateLocations(snapshot) {
             let client = FireClient.getInstance();

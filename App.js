@@ -22,7 +22,7 @@ export default class App extends Component{
   };
 
   async _databaseLoadAsync() {
-    await FireClient.getInstance().init();
+    await FireClient.getInstance().getApplicationData();
     this.setState({ databaseLoaded: true });
   };
 
