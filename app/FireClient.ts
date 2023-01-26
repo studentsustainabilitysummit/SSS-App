@@ -119,17 +119,33 @@ export default class FireClient {
         this.allEventsCallbacks.push(f);   
     }
 
-    async login(username: string, password: string) {
+    async login(email: string, password: string) {
+        if(email === "") {
+            alert("Error: email cannot be blank");
+            return;
+        }
+        if(password === "") {
+            alert("Error: password cannot be blank");
+            return;
+        }
         try {
-            return await auth().signInWithEmailAndPassword(username, password);
+            return await auth().signInWithEmailAndPassword(email, password);
         } catch (error) {
             alert(error);
         }
     }
 
-    async register(username: string, password: string) {
+    async register(email: string, password: string) {
+        if(email === "") {
+            alert("Error: email cannot be blank");
+            return;
+        }
+        if(password === "") {
+            alert("Error: password cannot be blank");
+            return;
+        }
         try {
-            return await auth().createUserWithEmailAndPassword(username, password);
+            return await auth().createUserWithEmailAndPassword(email, password);
         } catch (error) {
             alert(error);
         }
