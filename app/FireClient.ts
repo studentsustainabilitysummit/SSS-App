@@ -109,7 +109,7 @@ export default class FireClient {
         .ref("/InPersonEvent")
         .once("value", updateInPersonEvents);
 
-        await database()
+        database()
         .ref("/InPersonEvent")
         .on("value", updateInPersonEvents);
     }
