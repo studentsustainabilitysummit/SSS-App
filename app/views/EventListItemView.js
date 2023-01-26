@@ -1,18 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
-export default function EventListItemView({event}) {
+export default function EventListItemView({event, navigation}) {
 
     let {topic, theme, speaker} = event;
 
 
     return (
         <View style={styles.container}>
-            <View style={{...styles.bubble, backgroundColor: theme.color}}>
+            <TouchableOpacity 
+            style={{...styles.bubble, backgroundColor: theme.color}}
+            onPress={() =>
+                navigation.navigate('Event', {event: event})
+              }
+            >
                 <Text style={styles.text}>{topic}</Text>
                 <Text style={styles.text}>{speaker}</Text>
                 <Text style={styles.text}>{event.getTimeRangeString()}</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 };
