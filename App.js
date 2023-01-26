@@ -19,7 +19,6 @@ export default class App extends Component{
     };
     this.fireclient = FireClient.getInstance();
     this.handleAuthChange = this.handleAuthChange.bind(this);
-    this._login = this._login.bind(this);
   }
 
   async _loadFontsAsync() {
@@ -31,14 +30,6 @@ export default class App extends Component{
     await this.fireclient.getApplicationData();
     this.setState({ databaseLoaded: true });
   };
-
-  async _login(email, password) {
-    try {
-      await this.fireclient.login(email, password); 
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   componentDidMount(){
     this._loadFontsAsync();

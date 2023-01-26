@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FireClient from '../FireClient';
 
-export default function LoginScreen({loginFn = (email, password) => {}}) {
+export default function LoginScreen() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ export default function LoginScreen({loginFn = (email, password) => {}}) {
 
             <TouchableOpacity 
             style={styles.loginButton}
-            onPress={() => {loginFn(email, password)}}
+            onPress={() => {fireclient.login(email, password)}}
             >
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
