@@ -1,11 +1,14 @@
 import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text} from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import FireClient from '../FireClient';
 
 export default function LoginScreen({loginFn = (email, password) => {}}) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const fireclient = FireClient.getInstance();
 
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
@@ -39,7 +42,10 @@ export default function LoginScreen({loginFn = (email, password) => {}}) {
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.registerButton}>
+            <TouchableOpacity 
+            style={styles.registerButton}
+            onPress={() => {fireclient.register(email, password)}}
+            >
                 <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
 

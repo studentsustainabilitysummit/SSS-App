@@ -3,6 +3,7 @@ import BuildingLocation from "./BuildingLocation";
 import EventList from "./EventList";
 import Theme from "./Theme";
 import { InPersonEvent } from './Event';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 interface ThemeMap {
     [index: number]: Theme;
@@ -116,6 +117,26 @@ export default class FireClient {
 
     registerAllEventsCallback(f: (EventList: any) => void) {
         this.allEventsCallbacks.push(f);   
+    }
+
+    async login(username: string, password: string) {
+        try {
+            return await auth().signInWithEmailAndPassword(username, password);
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    async register(username: string, password: string) {
+        try {
+            return await auth().createUserWithEmailAndPassword(username, password);
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    onAuthStateChanged(callback: FirebaseAuthTypes.AuthListenerCallback | { next: FirebaseAuthTypes.AuthListenerCallback; }) {
+        auth().onAuthStateChanged(callback);
     }
 
 };
