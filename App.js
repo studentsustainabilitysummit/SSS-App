@@ -2,7 +2,7 @@ import MainScreen from './app/screens/MainScreen';
 import FireClient from './app/FireClient';
 import { Component } from 'react';
 import * as Font from 'expo-font';
-import LoginScreen from './app/screens/LoginScreen';
+import LoginRegisterScreen from './app/screens/LoginRegisterScreen';
 
 let customFonts = {
   LeagueSpartan: require('./app/assets/fonts/LeagueSpartan.ttf'),
@@ -49,7 +49,7 @@ export default class App extends Component{
     if(!this.state.user)
     {
       return (
-        <LoginScreen loginFn={this._login}/>
+        <LoginRegisterScreen/>
       )
     }
 

@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput} from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FireClient from '../FireClient';
 
 const fireclient = FireClient.getInstance();
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
             <Image style={styles.image} source={require("../assets/SSSlogo1.png")}/>
@@ -36,10 +36,10 @@ export default function LoginScreen() {
             </View>
 
             <TouchableOpacity 
-            style={styles.loginButton}
-            onPress={() => {fireclient.login(email, password)}}
+            style={styles.registerButton}
+            onPress={() => {fireclient.register(email, password)}}
             >
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
 
         </SafeAreaView>
@@ -73,15 +73,15 @@ const styles = StyleSheet.create({
         width: 200,
         marginBottom: 30
       },
-      loginButton: {
-        backgroundColor: "#04a7e7",
+      registerButton: {
+        backgroundColor: "#fa6464",
         width: "80%",
         borderRadius: 10,
         height: 60,
         marginTop: 50,
         marginBottom: 20,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
       },
       buttonText: {
         color: "white",
