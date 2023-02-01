@@ -36,6 +36,7 @@ export default function ScheduleScreen() {
         <Stack.Screen 
           name="Event"
           component={EventScreen}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

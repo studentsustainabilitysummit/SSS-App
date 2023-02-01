@@ -11,7 +11,7 @@ export default function EventListItemView({event, navigation}) {
             <TouchableOpacity 
             style={{...styles.bubble, backgroundColor: theme.color}}
             onPress={() =>
-                navigation.navigate('Event', {event: event})
+                navigation.navigate('Event', {event})
               }
             >
                 <Text style={styles.text}>{topic}</Text>
