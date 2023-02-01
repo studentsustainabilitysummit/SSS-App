@@ -5,7 +5,7 @@ export default function HeaderBackButtonView({title, navigation}) {
   return (
     <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
-            <Image source={require('../assets/SSSlogo1.png')} style={styles.logo}/>
+            <Image source={require('../assets/Back_button.png')} style={styles.logo}/>
         </TouchableOpacity>
         <Text style={styles.title}>
             {title}
