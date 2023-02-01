@@ -30,6 +30,8 @@ export default class FireClient {
     buildingsCollection: FirebaseFirestoreTypes.CollectionReference;
     themesCollection: FirebaseFirestoreTypes.CollectionReference;
     inPersonEventsCollection: FirebaseFirestoreTypes.CollectionReference;
+    authCallbacks: ((user: FirebaseAuthTypes.User) => void)[];
+    user: FirebaseAuthTypes.User;
 
     constructor() {
         this.allEvents = new EventList();
@@ -43,8 +45,30 @@ export default class FireClient {
         this.updateLocations = this.updateLocations.bind(this);
         this.updateThemes = this.updateThemes.bind(this);
         this.updateInPersonEvents = this.updateInPersonEvents.bind(this);
+        this.onAuthStatusChanged = this.onAuthStatusChanged.bind(this);
+        this.authCallbacks = [];
+        this.user = null;
+        auth().onAuthStateChanged(this.onAuthStatusChanged);
     }
 
+    onAuthStatusChanged(user: FirebaseAuthTypes.User) {
+        this.user = user;
+        this.authCallbacks.forEach(f => {f(user)});
+    }
+
+    registerAuthStatusChangedCalback(callback: (user: FirebaseAuthTypes.User) => void) {
+        this.authCallbacks.push(callback);
+    }
+
+    async sendVerificationEmail() {
+        await this.user.sendEmailVerification();
+        alert("Verification sent to email " + this.user.email + ".");
+        await this.signOut();
+    }
+
+    async signOut() {
+        await auth().signOut();
+    }
 
     updateLocations(querySnapshot) {
         let locations = {} as LocationMap;
@@ -132,10 +156,6 @@ export default class FireClient {
         } catch (error) {
             alert(error);
         }
-    }
-
-    onAuthStateChanged(callback: FirebaseAuthTypes.AuthListenerCallback | { next: FirebaseAuthTypes.AuthListenerCallback; }) {
-        auth().onAuthStateChanged(callback);
     }
 
 };
