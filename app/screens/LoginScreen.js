@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput} from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform} from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FireClient from '../FireClient';
@@ -11,7 +11,10 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={{flex: 1}} edges={['top']}>
+      <KeyboardAvoidingView 
+      style={styles.container}
+      >
             <Image style={styles.image} source={require("../assets/SSSlogo1.png")}/>
             
             <View style={styles.inputView}> 
@@ -42,7 +45,9 @@ export default function LoginScreen() {
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
 
-        </SafeAreaView>
+      </KeyboardAvoidingView>
+
+    </SafeAreaView>
   )
 }
 
