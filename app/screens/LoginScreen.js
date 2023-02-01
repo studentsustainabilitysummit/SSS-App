@@ -2,16 +2,20 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, KeyboardAvo
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FireClient from '../FireClient';
+import HeaderBackButtonView from '../views/HeaderBackButtonView';
 
 const fireclient = FireClient.getInstance();
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <SafeAreaView style={{flex: 1}} edges={['top']}>
+
+      <HeaderBackButtonView navigation={navigation} title={"Login"}/>
+
       <KeyboardAvoidingView 
       style={styles.container}
       >
