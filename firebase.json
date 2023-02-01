@@ -1,0 +1,6 @@
+{
+    "react-native": {
+      "database_persistence_enabled": true
+    }
+}
+  

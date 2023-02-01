@@ -1715,27 +1715,32 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
-"@react-native-firebase/app@^16.5.2":
-  version "16.5.2"
-  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-16.5.2.tgz"
-  integrity sha512-BKRFadp/oEu8y4jBvO7/+9bQjEoYJv/7tgZWXG2Pt+qiQLvL7PJCnWjN+OzBE8Vcfy7pAXQYQZ9vrDvm4evyOQ==
+"@react-native-firebase/app@^16.7.0":
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-16.7.0.tgz#cb6bab9dab836de5eb9f7a608b1d067a2b4783b2"
+  integrity sha512-+CQodRrXZnT6iX2wAnTWbNKBZJco7MM6WcDTtf7koS7+D1jV6eCzjUgAZmG0G9WKzVV9uRuitkh1ZMve1982fg==
   dependencies:
     "@expo/config-plugins" "^5.0.4"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^16.5.2":
-  version "16.5.2"
-  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-16.5.2.tgz"
-  integrity sha512-BzeAdn9qMQIu+f349DM7BfEY4gPmMYgxODWraZJY3map69dwZJ5kLPe+/0CUbjebMa3Zw5HREI07socYhNdayg==
+"@react-native-firebase/auth@^16.7.0":
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-16.7.0.tgz#ebeddf575b05c6868396354b60b0efe8df3e5ae7"
+  integrity sha512-LV6L6elg/ScdQdS5CVEvGxrbDVgF7oDm2GaAhnCRp4h3iPhJrIKJQruNDF1XW8w95nnoBViOyTUf+bVHqRBEjg==
   dependencies:
     "@expo/config-plugins" "^5.0.4"
     plist "^3.0.5"
 
-"@react-native-firebase/database@^16.5.2":
-  version "16.5.2"
-  resolved "https://registry.npmjs.org/@react-native-firebase/database/-/database-16.5.2.tgz"
-  integrity sha512-hC0y3xLiAVHQBsb+tvuglhGhZHHkNK7Eeh5SyVMcbkOwE3VwPR64NtDQTijXVqith5YTWaIM4tVu3uZbnUgjMg==
+"@react-native-firebase/database@^16.7.0":
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-16.7.0.tgz#2589ab50291f9bfb3992937747c7bb8ffdc4fc5b"
+  integrity sha512-FR4Qw5VldWKsd9txp5Os6DtGrODYeetkG4HcPkBbr5FScRvZMhwcfF4F0E4GO57VOWayUU/yjL2hJUS9XuiPrQ==
+
+"@react-native-firebase/firestore@^16.7.0":
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-16.7.0.tgz#975fd79ab628aad844ad4da6c01ae4e47ee07508"
+  integrity sha512-steov9b55UWMAiGZ9u09FfZboMeiJh0OzfCIqPlPRQleeq26lG7upei4o1BS1+4yXvUD5eu+Ldyr6+C4gzhxmg==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -1961,6 +1966,11 @@ accepts@^1.3.7, accepts@^1.3.8, accepts@~1.3.5, accepts@~1.3.7:
   dependencies:
     mime-types "~2.1.34"
     negotiator "0.6.3"
+
+add@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
+  integrity sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==
 
 agent-base@6:
   version "6.0.2"
