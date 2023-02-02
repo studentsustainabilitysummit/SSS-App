@@ -53,4 +53,14 @@ export default class EventList {
         }
         this.array.sort(comparefn);
     }
+
+    get(id: number): Event {
+        let result = null;
+        this.forEach((event) => {
+            if(event.id === id) {
+                result = event;
+            }
+        })
+        return result;
+    }
 };

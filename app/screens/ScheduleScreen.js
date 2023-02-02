@@ -12,9 +12,9 @@ const Stack = createNativeStackNavigator();
 const fireClient = FireClient.getInstance();
 
 function MainSchedule({navigation}) {
-  const [events, setEvents] = useState(fireClient.allEvents);
+  const [events, setEvents] = useState(fireClient.allInPersonEvents);
 
-  fireClient.registerAllEventsCallback(setEvents);
+  fireClient.registerInPersonEventsCallback(setEvents);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
