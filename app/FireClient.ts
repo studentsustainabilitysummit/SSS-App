@@ -120,6 +120,10 @@ export default class FireClient {
     }
 
     updateInPersonEvents(querySnapshot) {
+        if(querySnapshot.constructor.name !== "FirestoreQuerySnapshot" || querySnapshot.query.path !== this.inPersonEventsCollection.path) {
+            return;
+        }
+        console.log("Updated in-person events");
         let eventList = new EventList([], true);
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
@@ -137,6 +141,10 @@ export default class FireClient {
     }
 
     updateOnLineEvents(querySnapshot) {
+        if(querySnapshot.constructor.name !== "FirestoreQuerySnapshot" || querySnapshot.query.path !== this.onlineEventsCollection.path) {
+            return;
+        }
+        console.log("Updated online events");
         let eventList = new EventList([], true);
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
@@ -169,6 +177,10 @@ export default class FireClient {
     }
 
     updateUserEvents(documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot) {
+        if(documentSnapshot.constructor.name !== "FirestoreDocumentSnapshot" || documentSnapshot.ref.path !== this.userEventsDoc.path) {
+            return;
+        }
+        console.log("Updated user events");
         if(documentSnapshot.exists) {
             let { userEvents } = documentSnapshot.data();
             this.userEvents = userEvents;
