@@ -63,4 +63,14 @@ export default class EventList {
         })
         return result;
     }
+
+    contains(event: Event): boolean {
+        let result = false;
+        this.array.forEach(e => {
+            if(e.id === event.id) {
+                result = true;
+            }
+        })
+        return result;
+    }
 };
