@@ -15,12 +15,18 @@ export default function EventScreen({route, navigation}) {
   fireclient.registerUserEventsCallback(setUserEvents);
 
   let button = userEvents.contains(event) ? (
-    <TouchableOpacity>
-      <Text>Yes</Text>
+    <TouchableOpacity 
+    style={styles.unEnrollButton}
+    onPress={() => {fireclient.unEnrollEvent(event)}}
+    >
+      <Text style={styles.buttonText}>Remove from my schedule</Text>
     </TouchableOpacity>
   ) : (
-    <TouchableOpacity>
-      <Text>No</Text>
+    <TouchableOpacity 
+    style={styles.enrollButton}
+    onPress={() => {fireclient.enrollEvent(event)}}
+    >
+      <Text style={styles.buttonText}>Add to my schedule</Text>
     </TouchableOpacity>
   );
 
@@ -50,6 +56,36 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    textAlign: "flex-start"
+    textAlign: "flex-start",
+    width: "100%"
+  },
+  enrollButton: {
+    backgroundColor: '#6cc743',
+    width: "80%",
+    borderRadius: 10,
+    height: 60,
+    marginTop: 50,
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    position: 'absolute',
+    bottom: 20
+  },
+  unEnrollButton: {
+    backgroundColor: "#fa6464",
+    width: "80%",
+    borderRadius: 10,
+    height: 60,
+    marginTop: 50,
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    position: 'absolute',
+    bottom: 20
+  },
+  buttonText: {
+    color: "white",
+    fontFamily: "LeagueSpartan",
+    fontSize: 22
   },
 })

@@ -1,7 +1,7 @@
 import BuildingLocation from "./BuildingLocation";
 import EventList from "./EventList";
 import Theme from "./Theme";
-import { InPersonEvent, OnlineEvent } from './Event';
+import { InPersonEvent, OnlineEvent, Event } from './Event';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
@@ -70,7 +70,7 @@ export default class FireClient {
         if(user) {
             this.userEventsDoc = firestore().collection("UserEvent").doc(this.user.uid);
             await this.userEventsDoc.get().then(this.updateUserEvents);
-            this.userEventsDocSubscriber = this.userEventsDoc.onSnapshot(this.updateInPersonEvents);
+            this.userEventsDocSubscriber = this.userEventsDoc.onSnapshot(this.updateUserEvents);
         }
         this.authCallbacks.forEach(f => {f(user)});
     }
@@ -120,10 +120,6 @@ export default class FireClient {
     }
 
     updateInPersonEvents(querySnapshot) {
-        if(querySnapshot.constructor.name !== "FirestoreQuerySnapshot" || querySnapshot.query.path !== this.inPersonEventsCollection.path) {
-            return;
-        }
-        console.log("Updated in-person events");
         let eventList = new EventList([], true);
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
@@ -141,10 +137,6 @@ export default class FireClient {
     }
 
     updateOnLineEvents(querySnapshot) {
-        if(querySnapshot.constructor.name !== "FirestoreQuerySnapshot" || querySnapshot.query.path !== this.onlineEventsCollection.path) {
-            return;
-        }
-        console.log("Updated online events");
         let eventList = new EventList([], true);
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
@@ -177,10 +169,6 @@ export default class FireClient {
     }
 
     updateUserEvents(documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot) {
-        if(documentSnapshot.constructor.name !== "FirestoreDocumentSnapshot" || documentSnapshot.ref.path !== this.userEventsDoc.path) {
-            return;
-        }
-        console.log("Updated user events");
         if(documentSnapshot.exists) {
             let { userEvents } = documentSnapshot.data();
             this.userEvents = userEvents;
@@ -192,6 +180,29 @@ export default class FireClient {
 
     registerUserEventsCallback(callback: ((events: EventList) => void)) {
         this.userEventsCallbacks.push(callback);
+    }
+
+    async enrollEvent(event: Event) {
+        if(!this.user) {
+            throw new Error("No user");
+        }
+        if(!this.userEvents.includes(event.id)) {
+            let userEvents = [...this.userEvents];
+            userEvents.push(event.id);
+            await this.userEventsDoc.set({userEvents});
+        }
+    }
+
+    async unEnrollEvent(event: Event) {
+        if(!this.user) {
+            throw new Error("No user");
+        }
+        let index = this.userEvents.indexOf(event.id);
+        if(index >= 0) {
+            let userEvents = [...this.userEvents];
+            userEvents.splice(index, 1);
+            await this.userEventsDoc.set({userEvents});
+        }
     }
 
     async getApplicationData(){
