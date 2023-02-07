@@ -16,10 +16,10 @@ export default function LoginScreen({navigation}) {
 
       <HeaderBackButtonView navigation={navigation} title={"Login"}/>
 
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
       >
-            <Image style={styles.image} source={require("../assets/SSSlogo1.png")}/>
             
             <View style={styles.inputView}> 
                 <TextInput
@@ -80,14 +80,14 @@ const styles = StyleSheet.create({
       image: {
         height: 200,
         width: 200,
-        marginBottom: 30
+        marginBottom: 20
       },
       loginButton: {
         backgroundColor: "#04a7e7",
         width: "80%",
         borderRadius: 10,
         height: 60,
-        marginTop: 50,
+        marginTop: 30,
         marginBottom: 20,
         justifyContent: "center",
         alignItems: "center",
