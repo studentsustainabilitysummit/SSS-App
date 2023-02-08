@@ -5,7 +5,6 @@ import HeaderView from '../views/HeaderView';
 import EventListView from '../views/EventListView';
 import FireClient from '../FireClient';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
 import EventScreen from './EventScreen';
 import HeaderBackButtonView from '../views/HeaderBackButtonView';
 
@@ -45,8 +44,7 @@ function MySchedule({navigation}) {
 
 export default function ScheduleScreen() {
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator>
+    <Stack.Navigator>
       <Stack.Screen 
           name="MySchedule"
           component={MySchedule}
@@ -62,8 +60,7 @@ export default function ScheduleScreen() {
           component={EventScreen}
           options={{headerShown: false}}
         />
-      </Stack.Navigator>
-    </NavigationContainer>
+    </Stack.Navigator>
   )
 }
 
