@@ -134,6 +134,7 @@ export default class FireClient {
         });
         this.allInPersonEvents = eventList;
         this.allInPersonEventsCallbacks.forEach(f => {f(eventList)});
+        this.userEventsCallbacks.forEach(f => {f(this.getUserEventList())});
     }
 
     updateOnLineEvents(querySnapshot) {
@@ -151,6 +152,7 @@ export default class FireClient {
         });
         this.allOnlineEvents = eventList;
         this.allOnlineEventsCallbacks.forEach(f => {f(eventList)});
+        this.userEventsCallbacks.forEach(f => {f(this.getUserEventList())});
     }
 
     getUserEventList(): EventList {
