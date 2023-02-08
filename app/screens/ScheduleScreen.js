@@ -76,11 +76,11 @@ const styles = StyleSheet.create({
       },
       allEventsButton: {
         backgroundColor: "#fa6464",
-        width: "90%",
+        width: "80%",
         borderRadius: 10,
         height: 60,
-        marginTop: 30,
-        marginBottom: 20,
+        marginTop: 20,
+        marginBottom: 40,
         justifyContent: "center",
         alignItems: "center"
       },
