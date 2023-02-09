@@ -34,9 +34,16 @@ function MySchedule({navigation}) {
   const [events, setEvents] = useState(fireClient.getUserEventList());
   
   useEffect(() => {
-    let userEventsUnsubscriber = fireClient.registerUserEventsCallback(setEvents);
+    const userEventsUnsubscriber = fireClient.registerUserEventsCallback(setEvents);
+    const navigationUnsubscriber = navigation.getParent().addListener("tabPress", (e) => {
+      const history = navigation.getParent().getState().history;
+      if(history.length === 1) {
+        navigation.navigate("MySchedule");
+      }
+    });
     const unsubscribe = () => {
       userEventsUnsubscriber();
+      navigationUnsubscriber();
     }
     return unsubscribe;
   });
