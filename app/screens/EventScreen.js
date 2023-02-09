@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HeaderBackButtonView from '../views/HeaderBackButtonView'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { InPersonEvent } from '../Event';
@@ -12,7 +12,14 @@ export default function EventScreen({route, navigation}) {
   let {event} = route.params;
 
   const [userEvents, setUserEvents] = useState(fireclient.getUserEventList());
-  fireclient.registerUserEventsCallback(setUserEvents);
+
+  useEffect(() => {
+    let userEventsUnsubscriber = fireclient.registerUserEventsCallback(setUserEvents);
+    const unsubscribe = () => {
+      userEventsUnsubscriber();
+    }
+    return unsubscribe;
+  });
 
   let button = userEvents.contains(event) ? (
     <TouchableOpacity 

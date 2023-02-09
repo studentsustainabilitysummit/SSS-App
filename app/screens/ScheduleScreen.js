@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, Text } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderView from '../views/HeaderView';
 import EventListView from '../views/EventListView';
@@ -13,7 +13,14 @@ const fireClient = FireClient.getInstance();
 
 function MainSchedule({navigation}) {
   const [events, setEvents] = useState(fireClient.allInPersonEvents);
-  fireClient.registerInPersonEventsCallback(setEvents);
+  
+  useEffect(() => {
+    let eventsUnsubscriber = fireClient.registerInPersonEventsCallback(setEvents);
+    const unsubscribe = () => {
+      eventsUnsubscriber();
+    }
+    return unsubscribe;
+  });
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -25,7 +32,14 @@ function MainSchedule({navigation}) {
 
 function MySchedule({navigation}) {
   const [events, setEvents] = useState(fireClient.getUserEventList());
-  fireClient.registerUserEventsCallback(setEvents);
+  
+  useEffect(() => {
+    let userEventsUnsubscriber = fireClient.registerUserEventsCallback(setEvents);
+    const unsubscribe = () => {
+      userEventsUnsubscriber();
+    }
+    return unsubscribe;
+  });
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>

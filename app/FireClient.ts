@@ -182,6 +182,13 @@ export default class FireClient {
 
     registerUserEventsCallback(callback: ((events: EventList) => void)) {
         this.userEventsCallbacks.push(callback);
+        const unsubscribe = () => {
+            let index = this.userEventsCallbacks.indexOf(callback);
+            if(index >= 0) {
+                this.userEventsCallbacks.splice(index, 1);
+            }
+        }
+        return unsubscribe;
     }
 
     async enrollEvent(event: Event) {
@@ -217,12 +224,26 @@ export default class FireClient {
         this.onlineEventsCollection.onSnapshot(this.updateOnLineEvents);
     }
 
-    registerInPersonEventsCallback(f: (EventList: any) => void) {
-        this.allInPersonEventsCallbacks.push(f);   
+    registerInPersonEventsCallback(f: (EventList: any) => void): () => void {
+        this.allInPersonEventsCallbacks.push(f);
+        const unsubscribe = () => {
+            let index = this.allInPersonEventsCallbacks.indexOf(f);
+            if(index >= 0) {
+                this.allInPersonEventsCallbacks.splice(index, 1);
+            }
+        }
+        return unsubscribe;
     }
 
     registerOnlineEventsCallback(f: (EventList: any) => void) {
-        this.allOnlineEventsCallbacks.push(f);   
+        this.allOnlineEventsCallbacks.push(f);
+        const unsubscribe = () => {
+            let index = this.allOnlineEventsCallbacks.indexOf(f);
+            if(index >= 0) {
+                this.allOnlineEventsCallbacks.splice(index, 1);
+            }
+        }
+        return unsubscribe; 
     }
 
     async login(email: string, password: string) {
