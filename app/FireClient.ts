@@ -278,4 +278,28 @@ export default class FireClient {
         }
     }
 
+    async sendMessage(event: Event, content: string): Promise<Message> {
+        if(!this.user) {
+            throw new Error("Cannot send message when not authenticated");
+        }
+        const sender = this.user.uid;
+        const time = new Date();
+        const docReference = await firestore().collection("Messages/" + event.id).add({sender, time, content});
+        const m = new Message(docReference.id, sender, time, content);
+        return m;
+    }
+
+    registerMessagesCallback(event: Event, callback: ((messages: Message[]) => void)) {
+        return firestore().collection("Messages/" + event.id).onSnapshot(querySnapshot => {
+            const messages = [];
+            querySnapshot.forEach(documentSnapshot => {
+                const id = documentSnapshot.id;
+                const {sender, time, content} = documentSnapshot.data();
+                const m = new Message(id, sender, time, content);
+                messages.push(m);
+            });
+            callback(messages);
+        });
+    }
+
 };
