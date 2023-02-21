@@ -47,6 +47,9 @@ export default function EventScreen({route, navigation}) {
         <Text>Time: {event.getTimeRangeString()}</Text>
         <Text>{event instanceof InPersonEvent? "Room: " + event.location.room : ""}</Text>
         {button}
+        <TouchableOpacity onPress={() => {navigation.navigate("Conversation", {event})}}>
+          <Text>Messages</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

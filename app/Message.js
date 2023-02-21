@@ -1,4 +1,4 @@
-class Message {
+export default class Message {
 
     constructor(id, sender, time, content) {
         this.id = id;

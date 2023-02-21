@@ -7,6 +7,7 @@ import FireClient from '../FireClient';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import EventScreen from './EventScreen';
 import HeaderBackButtonView from '../views/HeaderBackButtonView';
+import ConversationScreen from './ConversationScreen';
 
 const Stack = createNativeStackNavigator();
 const fireClient = FireClient.getInstance();
@@ -79,6 +80,11 @@ export default function ScheduleScreen() {
         <Stack.Screen 
           name="Event"
           component={EventScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen 
+          name="Conversation"
+          component={ConversationScreen}
           options={{headerShown: false}}
         />
     </Stack.Navigator>

@@ -4,6 +4,7 @@ import Theme from "./Theme";
 import { InPersonEvent, OnlineEvent, Event } from './Event';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import Message from './Message'
 
 interface ThemeMap {
     [index: number]: Theme;
@@ -282,15 +283,15 @@ export default class FireClient {
         if(!this.user) {
             throw new Error("Cannot send message when not authenticated");
         }
-        const sender = this.user.uid;
+        const sender = this.user.email;
         const time = new Date();
-        const docReference = await firestore().collection("Messages/" + event.id).add({sender, time, content});
+        const docReference = await firestore().collection("Messages").doc(event.id).collection("Messages").add({sender, time, content})
         const m = new Message(docReference.id, sender, time, content);
         return m;
     }
 
     registerMessagesCallback(event: Event, callback: ((messages: Message[]) => void)) {
-        return firestore().collection("Messages/" + event.id).onSnapshot(querySnapshot => {
+        return firestore().collection("Messages").doc(event.id).collection("Messages").onSnapshot(querySnapshot => {
             const messages = [];
             querySnapshot.forEach(documentSnapshot => {
                 const id = documentSnapshot.id;
@@ -298,6 +299,10 @@ export default class FireClient {
                 const m = new Message(id, sender, time, content);
                 messages.push(m);
             });
+            const compareFn = (a: Message, b: Message) => {
+                return a.time - b.time;
+            }
+            messages.sort(compareFn);
             callback(messages);
         });
     }
