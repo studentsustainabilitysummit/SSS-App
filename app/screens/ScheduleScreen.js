@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { StyleSheet, TouchableOpacity, Text, View } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderView, {BackButtonView, LogoView, ToggleSwitchView} from '../views/HeaderView';
@@ -67,8 +67,16 @@ function MySchedule({navigation}) {
     return unsubscribe;
   });
 
-  const buttonText = isInPerson ? "All In Person Events" : "All Online Events";
+  const eventsText = isInPerson ? "In Person Events" : "Online Events";
+  const buttonText = "All " + eventsText;
   const events = isInPerson ? userEvents.getInPerson() : userEvents.getOnline();
+  const content = events.array.length > 0 ? (
+    <EventListView eventList={events} navigation={navigation}/>
+  ) : (
+    <View style={styles.noEventsView}>
+      <Text style={styles.noEventsText}>{"Use the button below to add some " + eventsText.toLowerCase() + " to your schedule!"}</Text>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -77,7 +85,7 @@ function MySchedule({navigation}) {
         leftComponent={<LogoView/>}
         rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
       />
-      <EventListView eventList={events} navigation={navigation}/>
+      {content}
       <TouchableOpacity
         style={{...styles.allEventsButton, backgroundColor: isInPerson ? '#6cc743' : '#04a7e7'}}
         onPress={() => {navigation.navigate("MainSchedule");}}
@@ -144,4 +152,14 @@ const styles = StyleSheet.create({
         fontFamily: "LeagueSpartan",
         fontSize: 22
       },
+      noEventsView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignContent: 'center'
+      },
+      noEventsText: {
+        fontFamily: "LeagueSpartan",
+        fontSize: 18,
+        textAlign: 'center'
+      }
 })
