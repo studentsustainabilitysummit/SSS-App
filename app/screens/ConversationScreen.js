@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, {useState, useEffect} from 'react'
-import HeaderBackButtonView from '../views/HeaderBackButtonView'
 import MessageListView from '../views/MessageListView'
 import MessageSendView from '../views/MessageSendView'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FireClient from '../FireClient'
+import HeaderView, { BackButtonView } from '../views/HeaderView'
 
 export default function ConversationScreen({route, navigation}) {
 
@@ -19,7 +19,7 @@ export default function ConversationScreen({route, navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <HeaderBackButtonView navigation={navigation}/>
+        <HeaderView leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
         <MessageListView event={event} style={styles.list} messages={messages}/>
         <MessageSendView event={event}/>
     </SafeAreaView>

@@ -1,9 +1,9 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import HeaderBackButtonView from '../views/HeaderBackButtonView'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { InPersonEvent } from '../Event';
 import FireClient from '../FireClient';
+import HeaderView, {BackButtonView} from '../views/HeaderView';
 
 export default function EventScreen({route, navigation}) {
 
@@ -39,7 +39,7 @@ export default function EventScreen({route, navigation}) {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderBackButtonView navigation={navigation} title={"Event"}/>
+      <HeaderView title={"Event"} leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
       <View style={styles.body}>
         <Text>Topic: {event.topic}</Text>
         <Text>Speaker: {event.speaker}</Text>
