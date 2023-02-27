@@ -1,34 +1,43 @@
 import { StyleSheet, TouchableOpacity, Text } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import HeaderView from '../views/HeaderView';
+import HeaderView, {BackButtonView, LogoView} from '../views/HeaderView';
 import EventListView from '../views/EventListView';
 import FireClient from '../FireClient';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import EventScreen from './EventScreen';
-import HeaderBackButtonView from '../views/HeaderBackButtonView';
 import ConversationScreen from './ConversationScreen';
+import IsInPersonContext, { IsInPersonProvider } from '../context/IsInPersonContext';
 
 const Stack = createNativeStackNavigator();
 const fireClient = FireClient.getInstance();
 
 function MainSchedule({navigation}) {
-  const [events, setEvents] = useState(fireClient.allInPersonEvents);
+  const [inPersonEvents, setInPersonEvents] = useState(fireClient.allInPersonEvents);
+  const [onlineEvents, setOnlineEvents] = useState(fireClient.allOnlineEvents);
+  const {isInPerson, toggleInPerson} = useContext(IsInPersonContext);
   
   useEffect(() => {
-    let eventsUnsubscriber = fireClient.registerInPersonEventsCallback(setEvents);
+    const inPersonEventsUnsubscriber = fireClient.registerInPersonEventsCallback(setInPersonEvents);
+    const onlineEventsUnsubscriber = fireClient.registerOnlineEventsCallback(setOnlineEvents);
     const unsubscribe = () => {
-      eventsUnsubscriber();
+      inPersonEventsUnsubscriber();
+      onlineEventsUnsubscriber();
     }
     return unsubscribe;
   });
 
-  return (
+  return isInPerson ? (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderBackButtonView title={"All Events"} navigation={navigation}/>
-      <EventListView eventList={events} navigation={navigation}/>
+      <HeaderView title={"In Person Events"} leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
+      <EventListView eventList={inPersonEvents} navigation={navigation}/>
     </SafeAreaView>
-  )
+  ) : (
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <HeaderView title={"Online Events"} leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
+      <EventListView eventList={onlineEvents} navigation={navigation}/>
+    </SafeAreaView>
+  );
 }
 
 function MySchedule({navigation}) {
@@ -51,7 +60,7 @@ function MySchedule({navigation}) {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderView title={"My Schedule"}/>
+      <HeaderView title={"My Schedule"} leftComponent={<LogoView/>}/>
       <EventListView eventList={events} navigation={navigation}/>
       <TouchableOpacity
       style={styles.allEventsButton}
@@ -65,29 +74,36 @@ function MySchedule({navigation}) {
 }
 
 export default function ScheduleScreen() {
+  const [isInPerson, setIsInPerson] = useState(true);
+  const toggleInPerson = () => {
+    setIsInPerson(!isInPerson);
+  }
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen 
-          name="MySchedule"
-          component={MySchedule}
-          options={{headerShown: false}}
-        />
+    <IsInPersonProvider value={{isInPerson, toggleInPerson}}>
+      <Stack.Navigator>
         <Stack.Screen 
-          name="MainSchedule"
-          component={MainSchedule}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen 
-          name="Event"
-          component={EventScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen 
-          name="Conversation"
-          component={ConversationScreen}
-          options={{headerShown: false}}
-        />
-    </Stack.Navigator>
+            name="MySchedule"
+            component={MySchedule}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen 
+            name="MainSchedule"
+            component={MainSchedule}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen 
+            name="Event"
+            component={EventScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen 
+            name="Conversation"
+            component={ConversationScreen}
+            options={{headerShown: false}}
+          />
+      </Stack.Navigator>
+    </IsInPersonProvider>
   )
 }
 
