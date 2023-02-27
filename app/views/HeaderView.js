@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, Text, View, TouchableOpacity, Switch } from 'react-native'
 import React from 'react'
 
 export default function HeaderView({title, leftComponent = null, rightComponent = null}) {
@@ -31,6 +31,20 @@ export function LogoView() {
     )
 }
 
+export function ToggleSwitchView({value=true, onPress={}}) {
+    return (
+        <View style={styles.switch}> 
+            <Switch 
+                trackColor={{false: '#04a7e7', true: '#6cc743'}}
+                thumbColor={'#f4f3f4'}
+                ios_backgroundColor="#04a7e7"
+                onValueChange={onPress}
+                value={value}
+            />
+        </View> 
+    )
+}
+
 const styles = StyleSheet.create({
     container: {
         width: '100%',
@@ -57,5 +71,11 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 0,
         right: 10,
+    },
+    switch: {
+        width: 100,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 })

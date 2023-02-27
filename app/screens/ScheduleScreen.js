@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, Text } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import HeaderView, {BackButtonView, LogoView} from '../views/HeaderView';
+import HeaderView, {BackButtonView, LogoView, ToggleSwitchView} from '../views/HeaderView';
 import EventListView from '../views/EventListView';
 import FireClient from '../FireClient';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -29,20 +29,29 @@ function MainSchedule({navigation}) {
 
   return isInPerson ? (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderView title={"In Person Events"} leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
+      <HeaderView 
+        title={"In Person Events"} 
+        leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
+        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
+      />
       <EventListView eventList={inPersonEvents} navigation={navigation}/>
     </SafeAreaView>
   ) : (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderView title={"Online Events"} leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
+      <HeaderView 
+        title={"Online Events"} 
+        leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
+        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
+      />
       <EventListView eventList={onlineEvents} navigation={navigation}/>
     </SafeAreaView>
   );
 }
 
 function MySchedule({navigation}) {
-  const [events, setEvents] = useState(fireClient.getUserEventList());
-  
+  const [userEvents, setEvents] = useState(fireClient.getUserEventList());
+  const {isInPerson, toggleInPerson} = useContext(IsInPersonContext);
+
   useEffect(() => {
     const userEventsUnsubscriber = fireClient.registerUserEventsCallback(setEvents);
     const navigationUnsubscriber = navigation.getParent().addListener("tabPress", (e) => {
@@ -58,15 +67,22 @@ function MySchedule({navigation}) {
     return unsubscribe;
   });
 
+  const buttonText = isInPerson ? "All In Person Events" : "All Online Events";
+  const events = isInPerson ? userEvents.getInPerson() : userEvents.getOnline();
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderView title={"My Schedule"} leftComponent={<LogoView/>}/>
+      <HeaderView 
+        title={"My Schedule"} 
+        leftComponent={<LogoView/>}
+        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
+      />
       <EventListView eventList={events} navigation={navigation}/>
       <TouchableOpacity
-      style={styles.allEventsButton}
-      onPress={() => {navigation.navigate("MainSchedule");}}
+        style={{...styles.allEventsButton, backgroundColor: isInPerson ? '#6cc743' : '#04a7e7'}}
+        onPress={() => {navigation.navigate("MainSchedule");}}
       >
-        <Text style={styles.buttonText}>All Events</Text>
+        <Text style={styles.buttonText}>{buttonText}</Text>
       </TouchableOpacity>
     </SafeAreaView>
   )
@@ -115,7 +131,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
       allEventsButton: {
-        backgroundColor: "#fa6464",
         width: "80%",
         borderRadius: 10,
         height: 60,

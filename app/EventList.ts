@@ -1,4 +1,4 @@
-import { Event } from "./Event";
+import { Event, InPersonEvent, OnlineEvent } from "./Event";
 
 export default class EventList {
     array: Array<Event>;
@@ -71,6 +71,26 @@ export default class EventList {
                 result = true;
             }
         })
+        return result;
+    }
+
+    getInPerson() : EventList {
+        const result = new EventList([], this.allowOverlapping);
+        this.array.forEach(e => {
+            if(e instanceof InPersonEvent) {
+                result.addEvent(e);
+            }
+        });
+        return result;
+    }
+
+    getOnline() : EventList {
+        const result = new EventList([], this.allowOverlapping);
+        this.array.forEach(e => {
+            if(e instanceof OnlineEvent) {
+                result.addEvent(e);
+            }
+        });
         return result;
     }
 };
