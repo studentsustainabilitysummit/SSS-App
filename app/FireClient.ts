@@ -37,7 +37,7 @@ class MessageUpdater {
         querySnapshot.forEach(documentSnapshot => {
             const id = documentSnapshot.id;
             const {sender, time, content} = documentSnapshot.data();
-            const m = new Message(id, sender, time, content);
+            const m = new Message(id, sender, time.toDate(), content);
             let messageIsNew = true;
             this.messages.forEach(oldMessage => {
                 if(oldMessage.id === id) {
@@ -169,25 +169,12 @@ export default class FireClient {
         this.themes = themes;
     }
 
-    timeStrToDate(date: Date, string: string) {
-        let split = string.split(":");
-        date.setHours(parseInt(split[0]));
-        date.setMinutes(parseInt(split[1]));
-        date.setSeconds(0);
-    }
-
     updateInPersonEvents(querySnapshot) {
         let eventList = new EventList([], true);
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
             let {theme, topic, speaker, startTime, endTime, location} = documentSnapshot.data();
-            
-            let startDate = new Date();
-            let endDate = new Date();
-            this.timeStrToDate(startDate, startTime);
-            this.timeStrToDate(endDate, endTime);
-            
-            eventList.addEvent(new InPersonEvent(id, this.themes[theme], topic, speaker, startDate, endDate, this.locations[location]));
+            eventList.addEvent(new InPersonEvent(id, this.themes[theme], topic, speaker, startTime.toDate(), endTime.toDate(), this.locations[location]));
         });
         this.allInPersonEvents = eventList;
         this.allInPersonEventsCallbacks.forEach(f => {f(eventList)});
@@ -199,13 +186,7 @@ export default class FireClient {
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
             let {theme, topic, speaker, startTime, endTime, zoom} = documentSnapshot.data();
-            
-            let startDate = new Date();
-            let endDate = new Date();
-            this.timeStrToDate(startDate, startTime);
-            this.timeStrToDate(endDate, endTime);
-            
-            eventList.addEvent(new OnlineEvent(id, this.themes[theme], topic, speaker, startDate, endDate, zoom));
+            eventList.addEvent(new OnlineEvent(id, this.themes[theme], topic, speaker, startTime.toDate(), endTime.toDate(), zoom));
         });
         this.allOnlineEvents = eventList;
         this.allOnlineEventsCallbacks.forEach(f => {f(eventList)});
