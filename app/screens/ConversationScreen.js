@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Platform} from 'react-native'
 import React, {useState, useEffect} from 'react'
 import MessageListView from '../views/MessageListView'
 import MessageSendView from '../views/MessageSendView'
@@ -19,9 +19,15 @@ export default function ConversationScreen({route, navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView 
+        style={{flex: 1}}
+        behavior='padding'
+        enabled = {Platform.OS === 'ios' ? true : false}
+      >
         <HeaderView leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
         <MessageListView event={event} style={styles.list} messages={messages}/>
         <MessageSendView event={event}/>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
@@ -32,6 +38,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   list: {
-    marginBottom: 70
+    flex: 1,
   }
 })

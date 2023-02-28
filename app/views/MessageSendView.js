@@ -40,7 +40,6 @@ export default function MessageSendView({event}) {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: '#6cc743',
       width: '95%',
       height: 50,
@@ -48,15 +47,13 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      position: 'absolute',
-      bottom: 10,
-      left: '2.5%'
+      marginBottom: 10,
+      marginLeft: '2.5%'
     },
     text: {
       
     },
     textInput: {
-      flex: 1,
       height: "auto",
       fontFamily: "LeagueSpartan",
       fontSize: 18,
@@ -69,7 +66,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#bec2bf',
       borderRadius: 10,
       marginLeft: '5%',
-      marginRight: '5%'
+      marginRight: '5%',
+      justifyContent: 'center'
     },
     sendButton: {
       width: '15%',
