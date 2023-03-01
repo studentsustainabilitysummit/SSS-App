@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import ScheduleScreen from './ScheduleScreen';
 import MapScreen from './MapScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Platform } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,4 +25,5 @@ const tabBarOptions = {
     tabBarShowLabel: true,
     headerShown: false,
     tabBarStyle: {backgroundColor: '#fff'},
+    tabBarHideOnKeyboard: Platform.OS === 'ios' ? false : true
 };
