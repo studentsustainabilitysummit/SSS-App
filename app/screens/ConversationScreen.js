@@ -18,7 +18,7 @@ export default function ConversationScreen({route, navigation}) {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <KeyboardAvoidingView 
         style={{flex: 1}}
         behavior='padding'
