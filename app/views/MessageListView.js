@@ -29,7 +29,7 @@ export default function MessageListView({style, messages, event}) {
       ref={flatListRef}
       data={messages} 
       renderItem={({item}) => <MessageView message={item} event={event}/>}
-      onScroll={(e) => {offsetRef.current.offset = e.nativeEvent.contentOffset.y}}
+      onScroll={(e) => {offsetRef.current = e.nativeEvent.contentSize.height - e.nativeEvent.layoutMeasurement.height - e.nativeEvent.contentOffset.y}}
       onContentSizeChange={() => {scrollToBottom(false)}}
     />
   )
