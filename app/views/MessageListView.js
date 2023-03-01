@@ -7,6 +7,7 @@ export default function MessageListView({style, messages, event}) {
 
   const flatListRef = useRef();
   const offsetRef = useRef(Number.MAX_VALUE);
+  const timerRef = useRef();
   
   const fireclient = FireClient.getInstance();
 
@@ -19,6 +20,15 @@ export default function MessageListView({style, messages, event}) {
   useEffect(() => {
     if(flatListRef.current.offset < 70 || (messages.length > 0 && messages[messages.length - 1].sender === fireclient.user.email)) {
       scrollToBottom();
+    }
+
+    const keyboardDidShow = Keyboard.addListener('keyboardDidShow', (e) => {
+      timerRef.current = setTimeout(() => {scrollToBottom(false)}, Platform.OS === 'ios' ? 1 : 100);
+    });
+
+    return () => {
+      keyboardDidShow.remove();
+      clearTimeout(timerRef.current);
     }
 
   });
