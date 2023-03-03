@@ -9,6 +9,9 @@ platform :ios, podfile_properties['ios.deploymentTarget'] || '13.0'
 install! 'cocoapods',
   :deterministic_uuids => false
 
+pod 'GoogleMaps'
+pod 'Google-Maps-iOS-Utils'
+
 target 'SSSApp' do
   use_expo_modules!
   config = use_native_modules!
@@ -40,6 +43,13 @@ target 'SSSApp' do
       # necessary for Mac Catalyst builds
       :mac_catalyst_enabled => false
     )
+    installer.pods_project.targets.each do |target|
+      if target.name == 'react-native-google-maps'
+        target.build_configurations.each do |config|
+          config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+       end
+     end
+   end
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
 
     # This is necessary for Xcode 14, because it signs resource bundles by default
