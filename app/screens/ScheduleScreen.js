@@ -27,23 +27,14 @@ function MainSchedule({navigation}) {
     return unsubscribe;
   });
 
-  return isInPerson ? (
+  return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <HeaderView 
-        title={"In Person Events"} 
+        title={isInPerson ? "In Person Events" : "Online Events"} 
         leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
         rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
       />
-      <EventListView eventList={inPersonEvents} navigation={navigation}/>
-    </SafeAreaView>
-  ) : (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderView 
-        title={"Online Events"} 
-        leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
-        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
-      />
-      <EventListView eventList={onlineEvents} navigation={navigation}/>
+      <EventListView eventList={isInPerson? inPersonEvents : onlineEvents} navigation={navigation}/>
     </SafeAreaView>
   );
 }
