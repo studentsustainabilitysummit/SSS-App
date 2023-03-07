@@ -87,7 +87,7 @@ function MySchedule({navigation}) {
       />
       {content}
       <TouchableOpacity
-        style={{...styles.allEventsButton, backgroundColor: isInPerson ? '#6cc743' : '#04a7e7'}}
+        style={isInPerson ? styles.greenButton : styles.blueButton}
         onPress={() => {navigation.navigate("MainSchedule");}}
       >
         <Text style={styles.buttonText}>{buttonText}</Text>
@@ -138,14 +138,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
-      allEventsButton: {
+      greenButton: {
         width: "80%",
         borderRadius: 10,
         height: 60,
         marginTop: 20,
         marginBottom: 40,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: '#6cc743'
+      },
+      blueButton: {
+        width: "80%",
+        borderRadius: 10,
+        height: 60,
+        marginTop: 20,
+        marginBottom: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: '#04a7e7'
       },
       buttonText: {
         color: "white",
