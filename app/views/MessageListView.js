@@ -1,4 +1,4 @@
-import { FlatList, Keyboard } from 'react-native'
+import { FlatList, Keyboard, Platform } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import FireClient from '../FireClient';
 import MessageView from './MessageView';
@@ -7,7 +7,8 @@ export default function MessageListView({style, messages, event}) {
 
   const flatListRef = useRef();
   const offsetRef = useRef(Number.MAX_VALUE);
-  const timerRef = useRef();
+  const keyboardDidShowRef = useRef();
+  const keyboardDidHideRef = useRef();
   const scrollOnContentSizeChangeRef = useRef(true);
   const prevMessagesRef = useRef(messages);
   
@@ -25,15 +26,22 @@ export default function MessageListView({style, messages, event}) {
       scrollToBottom();
     }
 
-
     const keyboardDidShow = Keyboard.addListener('keyboardDidShow', (e) => {
       scrollOnContentSizeChangeRef.current = false;
-      timerRef.current = setTimeout(() => {scrollToBottom(false)}, Platform.OS === 'ios' ? 1 : 100);
+      keyboardDidShowRef.current = setTimeout(() => {scrollToBottom(false)}, Platform.OS === 'ios' ? 1 : 100);
+    });
+
+    const keyboardDidHide = Keyboard.addListener('keyboardDidHide', (e) => {
+      if(Platform.OS === 'android') {
+        keyboardDidHideRef.current = setTimeout(() => {scrollToBottom(false)}, 400);
+      }
     });
 
     return () => {
       keyboardDidShow.remove();
-      clearTimeout(timerRef.current);
+      keyboardDidHide.remove();
+      clearTimeout(keyboardDidShowRef.current);
+      clearTimeout(keyboardDidHideRef.current);
       prevMessagesRef.current = messages;
     }
 
