@@ -1,4 +1,4 @@
-name: EAS Build Android
+name: EAS Build Android Preview
 on:
   workflow_dispatch:
   push:
