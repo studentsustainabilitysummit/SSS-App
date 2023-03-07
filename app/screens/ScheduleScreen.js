@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, Text, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, Text, View, Switch } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderView, {BackButtonView, LogoView, ToggleSwitchView} from '../views/HeaderView';
@@ -11,6 +11,26 @@ import IsInPersonContext, { IsInPersonProvider } from '../context/IsInPersonCont
 
 const Stack = createNativeStackNavigator();
 const fireClient = FireClient.getInstance();
+
+function InPersonOnlineToggle() {
+  const {isInPerson, toggleInPerson} = useContext(IsInPersonContext);
+  
+  return (
+    <View style={styles.inPersonOnlineToggleContainer}>
+      <Text style={isInPerson ? styles.blackText : styles.blueText}>Online</Text>
+      <View style={styles.switchContainer}> 
+        <Switch 
+          trackColor={{false: '#04a7e7', true: '#6cc743'}}
+          thumbColor={'#f4f3f4'}
+          ios_backgroundColor="#04a7e7"
+          onValueChange={toggleInPerson}
+          value={isInPerson}
+        />
+      </View>
+      <Text style={isInPerson ? styles.greenText : styles.blackText}>In Person</Text>
+    </View>
+)
+}
 
 function MainSchedule({navigation}) {
   const [inPersonEvents, setInPersonEvents] = useState(fireClient.allInPersonEvents);
@@ -32,8 +52,8 @@ function MainSchedule({navigation}) {
       <HeaderView 
         title={isInPerson ? "In Person Events" : "Online Events"} 
         leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
-        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
       />
+      <InPersonOnlineToggle/>
       <EventListView eventList={isInPerson? inPersonEvents : onlineEvents} navigation={navigation}/>
     </SafeAreaView>
   );
@@ -74,8 +94,8 @@ function MySchedule({navigation}) {
       <HeaderView 
         title={"My Schedule"} 
         leftComponent={<LogoView/>}
-        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
       />
+      <InPersonOnlineToggle/>
       {content}
       <TouchableOpacity
         style={isInPerson ? styles.greenButton : styles.blueButton}
@@ -163,5 +183,31 @@ const styles = StyleSheet.create({
         fontFamily: "LeagueSpartan",
         fontSize: 18,
         textAlign: 'center'
+      },
+      switchContainer: {
+        width: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      inPersonOnlineToggleContainer: {
+        width: '80%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      blackText: {
+        color: 'black',
+        fontFamily: 'LeagueSpartan',
+        fontSize: 16
+      },
+      blueText: {
+        color: '#04a7e7',
+        fontFamily: 'LeagueSpartan',
+        fontSize: 16
+      },
+      greenText: {
+        color: '#6cc743',
+        fontFamily: 'LeagueSpartan',
+        fontSize: 16
       }
 })
