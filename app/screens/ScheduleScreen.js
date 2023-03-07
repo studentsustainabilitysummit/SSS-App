@@ -12,6 +12,19 @@ import IsInPersonContext, { IsInPersonProvider } from '../context/IsInPersonCont
 const Stack = createNativeStackNavigator();
 const fireClient = FireClient.getInstance();
 
+function InPersonOnlineButton() {
+  const {isInPerson, toggleInPerson} = useContext(IsInPersonContext);
+
+  return (
+    <TouchableOpacity
+        style={isInPerson ? styles.greenButton : styles.blueButton}
+        onPress={toggleInPerson}
+      >
+        <Text style={styles.buttonText}>{isInPerson ? "Show Online" : "Show In Person"}</Text>
+      </TouchableOpacity>
+  )
+}
+
 function MainSchedule({navigation}) {
   const [inPersonEvents, setInPersonEvents] = useState(fireClient.allInPersonEvents);
   const [onlineEvents, setOnlineEvents] = useState(fireClient.allOnlineEvents);
@@ -32,8 +45,8 @@ function MainSchedule({navigation}) {
       <HeaderView 
         title={isInPerson ? "In Person Events" : "Online Events"} 
         leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
-        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
       />
+      <InPersonOnlineButton/>
       <EventListView eventList={isInPerson? inPersonEvents : onlineEvents} navigation={navigation}/>
     </SafeAreaView>
   );
@@ -74,8 +87,8 @@ function MySchedule({navigation}) {
       <HeaderView 
         title={"My Schedule"} 
         leftComponent={<LogoView/>}
-        rightComponent={<ToggleSwitchView value={isInPerson} onPress={toggleInPerson}/>}
       />
+      <InPersonOnlineButton/>
       {content}
       <TouchableOpacity
         style={isInPerson ? styles.greenButton : styles.blueButton}
