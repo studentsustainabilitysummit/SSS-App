@@ -39,5 +39,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    marginBottom: 10
   }
 })
