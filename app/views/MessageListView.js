@@ -28,12 +28,14 @@ export default function MessageListView({style, messages, event}) {
 
     const keyboardDidShow = Keyboard.addListener('keyboardDidShow', (e) => {
       scrollOnContentSizeChangeRef.current = false;
-      keyboardDidShowRef.current = setTimeout(() => {scrollToBottom(false)}, Platform.OS === 'ios' ? 1 : 100);
+      if(offsetRef.current < 70) {
+        keyboardDidShowRef.current = setTimeout(() => {scrollToBottom()}, Platform.OS === 'ios' ? 1 : 100);
+      }
     });
 
     const keyboardDidHide = Keyboard.addListener('keyboardDidHide', (e) => {
-      if(Platform.OS === 'android') {
-        keyboardDidHideRef.current = setTimeout(() => {scrollToBottom(false)}, 400);
+      if(Platform.OS === 'android' && offsetRef.current < 70) {
+        keyboardDidHideRef.current = setTimeout(() => {scrollToBottom()}, 400);
       }
     });
 
