@@ -21,7 +21,7 @@ export default function MessageListView({style, messages, event}) {
   }
 
   useEffect(() => {
-    if(prevMessagesRef.current.length != 0 && (flatListRef.current.offset < 70 || (messages.length > 0 && messages[messages.length - 1].sender === fireclient.user.email))) {
+    if(prevMessagesRef.current.length != 0 && (offsetRef.current < 70 || (messages.length > 0 && messages[messages.length - 1].sender === fireclient.user.email))) {
       scrollOnContentSizeChangeRef.current = false;
       scrollToBottom();
     }
