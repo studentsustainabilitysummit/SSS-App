@@ -4,6 +4,28 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { InPersonEvent } from '../Event';
 import FireClient from '../FireClient';
 import HeaderView, {BackButtonView} from '../views/HeaderView';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
+import fontelloConfig from '../fontello.json'
+
+function MessageBubble({clickable, onClick, color}) {
+  
+  const Icon = createIconSetFromFontello(fontelloConfig);
+  
+  return (
+    <TouchableOpacity onPress={() => {
+      if(clickable) {
+        onClick();
+      }
+      else {
+        alert("Add the event to your schedule to access messages.")
+      }
+    }}>
+      <View style={styles.messageBubble}>
+        <Icon name="bubble" size={50} color={clickable? color : '#c4bdbc'}/>
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 export default function EventScreen({route, navigation}) {
 
@@ -39,7 +61,15 @@ export default function EventScreen({route, navigation}) {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderView title={"Event"} leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
+      <HeaderView 
+        title={"Event"} 
+        leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
+        rightComponent={<MessageBubble 
+          clickable={userEvents.contains(event)} 
+          onClick={() => {navigation.navigate("Conversation", {event})}}
+          color={event.theme.color}
+          />}
+      />
       <View style={styles.body}>
         <Text>Topic: {event.topic}</Text>
         <Text>Speaker: {event.speaker}</Text>
@@ -47,9 +77,6 @@ export default function EventScreen({route, navigation}) {
         <Text>Time: {event.getTimeRangeString()}</Text>
         <Text>{event instanceof InPersonEvent? "Room: " + event.location.room : ""}</Text>
         {button}
-        <TouchableOpacity onPress={() => {navigation.navigate("Conversation", {event})}}>
-          <Text>Messages</Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
@@ -97,5 +124,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "LeagueSpartan",
     fontSize: 22
+  },
+  messageBubble: {
+    height: 100,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 })
