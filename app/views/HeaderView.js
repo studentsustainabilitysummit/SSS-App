@@ -7,9 +7,11 @@ export default function HeaderView({title, leftComponent = null, rightComponent 
         <View style={styles.leftComponent}>
             {leftComponent}
         </View>
-        <Text style={styles.title}>
-            {title}
-        </Text>
+        <View style={styles.textContainer}>
+            <Text numberOfLines={1} style={styles.title}>
+                {title}
+            </Text>
+        </View>
         <View style={styles.rightComponent}>
             {rightComponent}
         </View>
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     title: {
-        fontSize: 30,
+        fontSize: 28,
         fontFamily: 'LeagueSpartan',
     },
     logo: {
@@ -63,14 +65,17 @@ const styles = StyleSheet.create({
         height: 100,
     },
     leftComponent: {
-        position: "absolute",
-        top: 0,
-        left: 10,
+        width: 100,
+        height: 100
     },
     rightComponent: {
-        position: "absolute",
-        top: 0,
-        right: 10,
+        width: 100,
+        height: 100
+    },
+    textContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     switch: {
         width: 100,
