@@ -62,5 +62,5 @@ export default function MessageListView({style, messages, event}) {
       }}
       initialNumToRender={messages.length}
     />
-  ) : null
+  ) : <FlatList/>
 }
