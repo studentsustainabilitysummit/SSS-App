@@ -14,9 +14,11 @@ export default function EventListItemView({event, navigation}) {
                 navigation.navigate('Event', {event})
               }
             >
-                <Text style={styles.text}>{topic}</Text>
-                <Text style={styles.text}>{speaker}</Text>
-                <Text style={styles.text}>{event.getTimeRangeString()}</Text>
+                <View style={styles.content}> 
+                    <Text style={styles.text}>{topic}</Text>
+                    <Text style={styles.text}>{speaker}</Text>
+                    <Text style={styles.text}>{event.getTimeRangeString()}</Text>
+                </View>
             </TouchableOpacity>
         </View>
     )
@@ -24,18 +26,18 @@ export default function EventListItemView({event, navigation}) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         width: '100%',
-        height: 100,
         backgroundColor: "white",
         justifyContent: 'center',
         alignItems: 'center',
     },
     bubble: {
         width: '90%',
-        height: '90%',
         alignContent: 'flex-start',
         justifyContent: 'center',
         borderRadius: 10,
+        marginTop: 10
     },
     text: {
         paddingStart: 10,
@@ -43,5 +45,11 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'LeagueSpartan',
         fontSize: 16
+    },
+    content: {
+        marginTop: 10,
+        marginBottom: 10,
+        justifyContent: 'space-between',
+        alignItems: 'flex-start'
     },
 });
