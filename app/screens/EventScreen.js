@@ -62,7 +62,7 @@ export default function EventScreen({route, navigation}) {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <HeaderView 
-        title={"Event"} 
+        title={event.topic} 
         leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
         rightComponent={<MessageBubble 
           clickable={userEvents.contains(event)} 

@@ -24,7 +24,11 @@ export default function ConversationScreen({route, navigation}) {
         behavior='padding'
         enabled = {Platform.OS === 'ios' ? true : false}
       >
-        <HeaderView leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}/>
+        <HeaderView 
+          leftComponent={<BackButtonView 
+          onPress={() => {navigation.goBack();}}/>}
+          title={event.topic}
+        />
         <MessageListView event={event} style={styles.list} messages={messages}/>
         <MessageSendView event={event}/>
       </KeyboardAvoidingView>
