@@ -22,12 +22,10 @@ export default function MessageListView({style, messages, event}) {
 
   useEffect(() => {
     if(prevMessagesRef.current.length != 0 && (offsetRef.current < 70 || (messages.length > 0 && messages[messages.length - 1].sender === fireclient.user.email))) {
-      scrollOnContentSizeChangeRef.current = false;
       scrollToBottom();
     }
 
     const keyboardDidShow = Keyboard.addListener('keyboardDidShow', (e) => {
-      scrollOnContentSizeChangeRef.current = false;
       if(offsetRef.current < 70) {
         keyboardDidShowRef.current = setTimeout(() => {scrollToBottom()}, Platform.OS === 'ios' ? 1 : 100);
       }
@@ -49,14 +47,20 @@ export default function MessageListView({style, messages, event}) {
 
   }, [messages]);
 
-  return (
+  return messages.length > 0 ? (
     <FlatList
       style={style}
       ref={flatListRef}
       data={messages} 
       renderItem={({item}) => <MessageView message={item} event={event}/>}
       onScroll={(e) => {offsetRef.current = e.nativeEvent.contentSize.height - e.nativeEvent.layoutMeasurement.height - e.nativeEvent.contentOffset.y}}
-      onContentSizeChange={() => {if(scrollOnContentSizeChangeRef.current){scrollToBottom(false);}}}
+      onContentSizeChange={() => {
+        if(scrollOnContentSizeChangeRef.current){
+          scrollToBottom(false);
+          scrollOnContentSizeChangeRef.current = false;
+        }
+      }}
+      initialNumToRender={messages.length}
     />
-  )
+  ) : null
 }
