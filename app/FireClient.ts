@@ -48,7 +48,7 @@ class MessageUpdater {
             newMessages.push(m);
         });
         
-        if(update){
+        if(update || newMessages.length !== this.messages.length){
             this.messages = newMessages;
             const compareFn = (a: Message, b: Message) => {
                 return a.time - b.time;
