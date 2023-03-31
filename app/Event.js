@@ -1,6 +1,6 @@
 export class Event {
 
-    constructor(id, theme, topic, speaker, startTime, endTime){
+    constructor(id, theme, topic, speaker, startTime, endTime, bio, headshot){
         if(this.constructor === Event) {
             throw new Error("Event class cannot be instantiated! Use InPersonEvent or OnlineEvent instead!");
         }
@@ -10,6 +10,8 @@ export class Event {
         this.speaker = speaker;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.bio = bio;
+        this.headshot = headshot;
     };
 
     overlaps(otherEvent) {
@@ -66,8 +68,8 @@ export class Event {
 
 export class InPersonEvent extends Event {
 
-    constructor(id, theme, topic, speaker, startTime, endTime, location){
-        super(id, theme, topic, speaker, startTime, endTime);
+    constructor(id, theme, topic, speaker, startTime, endTime, location, bio, headshot){
+        super(id, theme, topic, speaker, startTime, endTime, bio, headshot);
         this.location = location;
     };
 
@@ -75,8 +77,8 @@ export class InPersonEvent extends Event {
 
 export class OnlineEvent extends Event {
 
-    constructor(id, theme, topic, speaker, startTime, endTime, zoom){
-        super(id, theme, topic, speaker, startTime, endTime);
+    constructor(id, theme, topic, speaker, startTime, endTime, zoom, bio, headshot){
+        super(id, theme, topic, speaker, startTime, endTime, bio, headshot);
         this.zoom = zoom;
     }
 
