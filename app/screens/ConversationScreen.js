@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, StyleSheet, Platform} from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Platform, Text} from 'react-native'
 import React, {useState, useEffect} from 'react'
 import MessageListView from '../views/MessageListView'
 import MessageSendView from '../views/MessageSendView'
@@ -27,8 +27,9 @@ export default function ConversationScreen({route, navigation}) {
         <HeaderView 
           leftComponent={<BackButtonView 
           onPress={() => {navigation.goBack();}}/>}
-          title={event.topic}
+          title={"Chat Room"}
         />
+        <Text style={styles.titleText}>{event.topic}</Text>
         <MessageListView event={event} style={styles.list} messages={messages}/>
         <MessageSendView event={event}/>
       </KeyboardAvoidingView>
@@ -44,5 +45,11 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     marginBottom: 10
-  }
+  },
+  titleText: {
+    fontFamily: "LeagueSpartan",
+    fontSize: 30,
+    marginBottom: 20,
+    textAlign: 'center'
+  },
 })
