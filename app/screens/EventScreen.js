@@ -138,7 +138,8 @@ const styles = StyleSheet.create({
   titleText: {
     fontFamily: "LeagueSpartan",
     fontSize: 30,
-    marginBottom: 20
+    marginBottom: 20,
+    textAlign: 'center'
   },
   subTitleText: {
     fontFamily: "LeagueSpartan",
