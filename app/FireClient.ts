@@ -173,8 +173,8 @@ export default class FireClient {
         let eventList = new EventList([], true);
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
-            let {theme, topic, speaker, startTime, endTime, location, bio, headshot} = documentSnapshot.data();
-            eventList.addEvent(new InPersonEvent(id, this.themes[theme], topic, speaker, startTime.toDate(), endTime.toDate(), this.locations[location], bio, headshot));
+            let {theme, topic, speaker, startTime, endTime, location, bio, headshot, abstract} = documentSnapshot.data();
+            eventList.addEvent(new InPersonEvent(id, this.themes[theme], topic, speaker, startTime.toDate(), endTime.toDate(), this.locations[location], bio, headshot, abstract));
         });
         this.allInPersonEvents = eventList;
         this.allInPersonEventsCallbacks.forEach(f => {f(eventList)});
@@ -185,8 +185,8 @@ export default class FireClient {
         let eventList = new EventList([], true);
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
-            let {theme, topic, speaker, startTime, endTime, zoom, bio, headshot} = documentSnapshot.data();
-            eventList.addEvent(new OnlineEvent(id, this.themes[theme], topic, speaker, startTime.toDate(), endTime.toDate(), zoom, bio, headshot));
+            let {theme, topic, speaker, startTime, endTime, zoom, bio, headshot, abstract} = documentSnapshot.data();
+            eventList.addEvent(new OnlineEvent(id, this.themes[theme], topic, speaker, startTime.toDate(), endTime.toDate(), zoom, bio, headshot, abstract));
         });
         this.allOnlineEvents = eventList;
         this.allOnlineEventsCallbacks.forEach(f => {f(eventList)});
