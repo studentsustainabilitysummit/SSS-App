@@ -59,28 +59,6 @@ export default function EventScreen({route, navigation}) {
     </TouchableOpacity>
   );
 
-  /*return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <HeaderView 
-        title={event.topic} 
-        leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
-        rightComponent={<MessageBubble 
-          clickable={userEvents.contains(event)} 
-          onClick={() => {navigation.navigate("Conversation", {event})}}
-          color={event.theme.color}
-          />}
-      />
-      <View style={styles.body}>
-        <Text>Topic: {event.topic}</Text>
-        <Text>Speaker: {event.speaker}</Text>
-        <Text>Theme: {event.theme.name}</Text>
-        <Text>Time: {event.getTimeRangeString()}</Text>
-        <Text>{event instanceof InPersonEvent? "Room: " + event.location.room : ""}</Text>
-        {button}
-      </View>
-    </SafeAreaView>
-  )*/
-
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <HeaderView 
@@ -92,15 +70,18 @@ export default function EventScreen({route, navigation}) {
           color={event.theme.color}
           />}
       />
-      <Text>{event.topic}</Text>
+      <Text style={styles.titleText}>{event.topic}</Text>
       <ScrollView>
-        <View>
-          <Image source={event.headshot}/>
-          <Text>{event.speaker}</Text>
+        <View style={styles.headshotContainer}>
+          <Image source={event.headshot} style={styles.headshot}/>
+          <Text style={styles.subTitleText}>{event.speaker}</Text>
         </View>
-        <Text>{event.abstract}</Text>
-        <Text>{event.bio}</Text>
+        <Text style={styles.subTitleText}>Abstract</Text>
+        <Text style={styles.text}>{event.abstract}</Text>
+        <Text style={styles.subTitleText}>Speaker Bio</Text>
+        <Text style={styles.text}>{event.bio}</Text>
       </ScrollView>
+      {button}
     </SafeAreaView>
   )
 }
@@ -111,37 +92,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  body: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: "flex-start",
-    width: "100%"
+    padding: 3
   },
   enrollButton: {
     backgroundColor: '#6cc743',
     width: "80%",
     borderRadius: 10,
     height: 60,
-    marginTop: 50,
-    marginBottom: 20,
+    marginTop: 30,
+    marginBottom: 30,
     justifyContent: "center",
     alignItems: "center",
-    position: 'absolute',
-    bottom: 20
   },
   unEnrollButton: {
     backgroundColor: "#fa6464",
     width: "80%",
     borderRadius: 10,
     height: 60,
-    marginTop: 40,
-    marginBottom: 20,
+    marginTop: 30,
+    marginBottom: 30,
     justifyContent: "center",
     alignItems: "center",
-    position: 'absolute',
-    bottom: 20
   },
   buttonText: {
     color: "white",
@@ -154,4 +125,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  headshot: {
+    height: 100,
+    width: 100
+  },
+  headshotContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginBottom: 20
+  },
+  titleText: {
+    fontFamily: "LeagueSpartan",
+    fontSize: 30,
+    marginBottom: 20
+  },
+  subTitleText: {
+    fontFamily: "LeagueSpartan",
+    fontSize: 18,
+    marginBottom: 5
+  },
+  text: {
+    fontFamily: "LeagueSpartan",
+    fontSize: 16,
+  }
 })
