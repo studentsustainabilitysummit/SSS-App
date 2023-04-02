@@ -1,7 +1,7 @@
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image} from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Linking} from 'react-native'
+import React, { useEffect, useState, useCallback } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { InPersonEvent } from '../Event';
+import { InPersonEvent, OnlineEvent } from '../Event';
 import FireClient from '../FireClient';
 import HeaderView, {BackButtonView} from '../views/HeaderView';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
@@ -43,7 +43,7 @@ export default function EventScreen({route, navigation}) {
     return unsubscribe;
   });
 
-  let button = userEvents.contains(event) ? (
+  let enrollButton = userEvents.contains(event) ? (
     <TouchableOpacity 
     style={styles.unEnrollButton}
     onPress={() => {fireclient.unEnrollEvent(event)}}
@@ -58,6 +58,28 @@ export default function EventScreen({route, navigation}) {
       <Text style={styles.buttonText}>Add to my schedule</Text>
     </TouchableOpacity>
   );
+
+  const handlePress = useCallback(async () => {
+    // Checking if the link is supported for links with custom URL scheme.
+    const supported = await Linking.canOpenURL(event.zoom);
+
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(event.zoom);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${event.zoom}`);
+    }
+  }, [event.zoom]);
+
+  let zoomButton = event instanceof OnlineEvent ? (
+    <TouchableOpacity
+    style={styles.zoomButton}
+    onPress={handlePress}
+    >
+      <Text style={styles.buttonText}>Zoom</Text>
+    </TouchableOpacity>
+  ) : (null);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -80,7 +102,8 @@ export default function EventScreen({route, navigation}) {
         <Text style={styles.subTitleText}>Speaker Bio</Text>
         <Text style={styles.text}>{'\t' + event.bio}</Text>
       </ScrollView>
-      {button}
+      {zoomButton}
+      {enrollButton}
     </SafeAreaView>
   )
 }
@@ -148,5 +171,14 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "LeagueSpartan",
     fontSize: 16,
+  },
+  zoomButton: {
+    backgroundColor: "#04a7e7",
+    width: "80%",
+    borderRadius: 10,
+    height: 60,
+    marginTop: 30,
+    justifyContent: "center",
+    alignItems: "center",
   }
 })
