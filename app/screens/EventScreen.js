@@ -71,7 +71,7 @@ export default function EventScreen({route, navigation}) {
           />}
       />
       <Text style={styles.titleText}>{event.topic}</Text>
-      <ScrollView>
+      <ScrollView style={{flex: 1}}>
         <View style={styles.headshotContainer}>
           <Image source={event.headshot} style={styles.headshot}/>
           <Text style={styles.subTitleText}>{event.speaker}</Text>
