@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { InPersonEvent } from '../Event';
@@ -59,7 +59,7 @@ export default function EventScreen({route, navigation}) {
     </TouchableOpacity>
   );
 
-  return (
+  /*return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <HeaderView 
         title={event.topic} 
@@ -78,6 +78,29 @@ export default function EventScreen({route, navigation}) {
         <Text>{event instanceof InPersonEvent? "Room: " + event.location.room : ""}</Text>
         {button}
       </View>
+    </SafeAreaView>
+  )*/
+
+  return (
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <HeaderView 
+        title={event.topic} 
+        leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
+        rightComponent={<MessageBubble 
+          clickable={userEvents.contains(event)} 
+          onClick={() => {navigation.navigate("Conversation", {event})}}
+          color={event.theme.color}
+          />}
+      />
+      <Text>{event.topic}</Text>
+      <ScrollView>
+        <View>
+          <Image source={event.headshot}/>
+          <Text>{event.speaker}</Text>
+        </View>
+        <Text>{event.abstract}</Text>
+        <Text>{event.bio}</Text>
+      </ScrollView>
     </SafeAreaView>
   )
 }
