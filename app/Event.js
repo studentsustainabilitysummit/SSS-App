@@ -1,5 +1,7 @@
-export class Event {
 
+const LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus ligula, hendrerit nec metus at, convallis ultricies turpis. Phasellus fringilla arcu quis mi pretium dapibus. Nam ullamcorper nisl in libero mollis ultricies id eu leo. Nunc nec felis ac odio pulvinar ultrices. Nullam magna mauris, euismod quis fermentum tristique, finibus in mauris. Etiam elit lectus, volutpat et dignissim at, eleifend vel lectus. Aliquam congue eleifend ipsum, eu aliquam dolor. Phasellus eleifend nisl in bibendum scelerisque. Integer nec turpis magna. Integer interdum ultricies pellentesque. Nunc quis arcu ac libero finibus placerat. Nullam ac sem sed urna blandit pellentesque sit amet nec sem. Pellentesque ultricies hendrerit leo ut luctus. "
+
+export class Event {
     constructor(id, theme, topic, speaker, startTime, endTime, bio, headshot){
         if(this.constructor === Event) {
             throw new Error("Event class cannot be instantiated! Use InPersonEvent or OnlineEvent instead!");
@@ -10,8 +12,14 @@ export class Event {
         this.speaker = speaker;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.bio = bio;
-        this.headshot = headshot;
+
+        if(!bio)
+            this.bio = LOREM_IPSUM;
+
+        if(!headshot)
+            this.headshot = require('./assets/filler.png');
+        else
+            this.headshot = {uri: headshot}
     };
 
     overlaps(otherEvent) {
