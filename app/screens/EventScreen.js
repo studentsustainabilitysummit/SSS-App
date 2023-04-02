@@ -76,9 +76,9 @@ export default function EventScreen({route, navigation}) {
           <Text style={styles.subTitleText}>{event.speaker}</Text>
         </View>
         <Text style={styles.subTitleText}>Abstract</Text>
-        <Text style={styles.text}>{event.abstract}</Text>
+        <Text style={styles.text}>{'\t' + event.abstract}</Text>
         <Text style={styles.subTitleText}>Speaker Bio</Text>
-        <Text style={styles.text}>{event.bio}</Text>
+        <Text style={styles.text}>{'\t' + event.bio}</Text>
       </ScrollView>
       {button}
     </SafeAreaView>
