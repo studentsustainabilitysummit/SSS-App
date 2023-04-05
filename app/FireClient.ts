@@ -81,6 +81,7 @@ export default class FireClient {
     allOnlineEvents: EventList;
     themes: ThemeMap;
     locations: LocationMap;
+    locationsList: Array<Location>
     allInPersonEventsCallbacks: ((EventList) => void)[];
     allOnlineEventsCallbacks: ((EventList) => void)[];
     buildingsCollection: FirebaseFirestoreTypes.CollectionReference;
@@ -101,6 +102,7 @@ export default class FireClient {
         this.userEvents = [];
         this.themes = {} as ThemeMap;
         this.locations = {} as LocationMap;
+        this.locationsList = [];
         this.allInPersonEventsCallbacks = [];
         this.allOnlineEventsCallbacks = [];
         this.buildingsCollection = firestore().collection("BuildingLocation");
@@ -151,12 +153,16 @@ export default class FireClient {
 
     updateLocations(querySnapshot) {
         let locations = {} as LocationMap;
+        let locationsList = [];
         querySnapshot.forEach(documentSnapshot => {
             let id = documentSnapshot.id;
             let {building, room, lat, lon} = documentSnapshot.data();
-            locations[id] = new BuildingLocation(id, building, room, lat, lon);
+            let newLocation = new BuildingLocation(id, building, room, lat, lon);
+            locations[id] = newLocation;
+            locationsList.push(newLocation);
         });
         this.locations = locations;
+        this.locationsList = locationsList;
     }
 
     updateThemes(querySnapshot) {
