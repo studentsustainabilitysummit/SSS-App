@@ -4,28 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { InPersonEvent, OnlineEvent } from '../Event';
 import FireClient from '../FireClient';
 import HeaderView, {BackButtonView} from '../views/HeaderView';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
-import fontelloConfig from '../fontello.json'
 
-function MessageBubble({clickable, onClick, color}) {
-  
-  const Icon = createIconSetFromFontello(fontelloConfig);
-  
-  return (
-    <TouchableOpacity onPress={() => {
-      if(clickable) {
-        onClick();
-      }
-      else {
-        alert("Add the event to your schedule to access messages.")
-      }
-    }}>
-      <View style={styles.messageBubble}>
-        <Icon name="bubble" size={50} color={clickable? color : '#c4bdbc'}/>
-      </View>
-    </TouchableOpacity>
-  )
-}
 
 export default function EventScreen({route, navigation}) {
 
@@ -85,11 +64,6 @@ export default function EventScreen({route, navigation}) {
     <SafeAreaView style={styles.container} edges={['top']}>
       <HeaderView 
         leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
-        rightComponent={<MessageBubble 
-          clickable={userEvents.contains(event)} 
-          onClick={() => {navigation.navigate("Conversation", {event})}}
-          color={event.theme.color}
-          />}
       />
       <Text style={styles.titleText}>{event.topic}</Text>
       <ScrollView style={{flex: 1}}>

@@ -7,7 +7,6 @@ import VerifyUserScreen from './app/screens/VerifyUserScreen';
 
 let customFonts = {
   LeagueSpartan: require('./app/assets/fonts/LeagueSpartan.ttf'),
-  fontello: require('./app/assets/fonts/fontello.ttf')
 };
 
 export default class App extends Component{

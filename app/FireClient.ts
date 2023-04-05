@@ -4,7 +4,6 @@ import Theme from "./Theme";
 import { InPersonEvent, OnlineEvent, Event } from './Event';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
-import Message from './Message'
 
 interface ThemeMap {
     [index: number]: Theme;
@@ -12,60 +11,6 @@ interface ThemeMap {
 
 interface LocationMap {
     [index: number]: BuildingLocation;
-}
-
-class MessageUpdater {
-    messages: Array<Message>
-    callback: (messages: Message[]) => any;
-    event: Event;
-    constructor(callback, event) {
-        this.messages = [];
-        this.event = event;
-        this.updateMessage = this.updateMessage.bind(this);
-        firestore().collection("Messages").doc(event.id).collection("Messages").onSnapshot(this.updateMessage);
-        this.callback = callback;
-    }
-
-    setCallback(newCallback: (messages: Message[]) => any) {
-        this.callback = newCallback;
-    }
-    
-    updateMessage(querySnapshot) {
-        const newMessages = [];
-        let update = false || this.messages.length === 0;
-        
-        querySnapshot.forEach(documentSnapshot => {
-            const id = documentSnapshot.id;
-            const {sender, time, content} = documentSnapshot.data();
-            const m = new Message(id, sender, time.toDate(), content);
-            let messageIsNew = true;
-            this.messages.forEach(oldMessage => {
-                if(oldMessage.id === id) {
-                    messageIsNew = false;
-                }
-            });
-            update = update || messageIsNew;
-            newMessages.push(m);
-        });
-        
-        if(update || newMessages.length !== this.messages.length){
-            this.messages = newMessages;
-            const compareFn = (a: Message, b: Message) => {
-                return a.time - b.time;
-            }
-            this.messages.sort(compareFn);
-            this.doCallback();
-        }
-    }
-
-    doCallback() {
-        this.callback(this.messages);
-    }
-
-};
-
-interface MessageUpdaterMap{
-    [index: number]: MessageUpdater;
 }
 
 export default class FireClient {
@@ -94,7 +39,6 @@ export default class FireClient {
     userEventsDoc: FirebaseFirestoreTypes.DocumentReference;
     userEventsDocSubscriber: () => void;
     userEventsCallbacks: ((EventList) => void)[];
-    messageUpdaters: MessageUpdaterMap;
 
     constructor() {
         this.allInPersonEvents = new EventList();
@@ -121,7 +65,6 @@ export default class FireClient {
         this.userEventsDoc = null;
         this.userEventsDocSubscriber = null;
         auth().onAuthStateChanged(this.onAuthStatusChanged);
-        this.messageUpdaters = {} as MessageUpdaterMap;
     }
 
     async onAuthStatusChanged(user: FirebaseAuthTypes.User) {
@@ -320,33 +263,6 @@ export default class FireClient {
         } catch (error) {
             alert(error);
         }
-    }
-
-    async sendMessage(event: Event, content: string): Promise<Message> {
-        if(!this.user) {
-            throw new Error("Cannot send message when not authenticated");
-        }
-        const sender = this.user.email;
-        const time = new Date();
-        const docReference = await firestore().collection("Messages").doc(event.id).collection("Messages").add({sender, time, content})
-        const m = new Message(docReference.id, sender, time, content);
-        return m;
-    }
-
-    registerMessagesCallback(event: Event, callback: ((messages: Message[]) => void), messages: Message[]) {
-        if(!this.messageUpdaters[event.id]) {
-            const updater = new MessageUpdater(callback, event);
-            this.messageUpdaters[event.id] = updater;
-        } else {
-            this.messageUpdaters[event.id].setCallback(callback);
-            if(messages.length === 0) {
-                this.messageUpdaters[event.id].doCallback();
-            }
-        }
-        
-        return () => {
-            this.messageUpdaters[event.id].setCallback(messages => {});
-        };
     }
 
 };
