@@ -6,7 +6,6 @@ import EventListView from '../views/EventListView';
 import FireClient from '../FireClient';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import EventScreen from './EventScreen';
-import ConversationScreen from './ConversationScreen';
 import IsInPersonContext, { IsInPersonProvider } from '../context/IsInPersonContext';
 
 const Stack = createNativeStackNavigator();
@@ -130,11 +129,6 @@ export default function ScheduleScreen() {
           <Stack.Screen 
             name="Event"
             component={EventScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen 
-            name="Conversation"
-            component={ConversationScreen}
             options={{headerShown: false}}
           />
       </Stack.Navigator>
