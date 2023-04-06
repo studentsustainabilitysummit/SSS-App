@@ -84,5 +84,7 @@
     <string>Light</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>SSS-App needs your location to display it on the map</string>
   </dict>
 </plist>
