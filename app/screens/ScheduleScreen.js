@@ -49,7 +49,7 @@ function MainSchedule({navigation}) {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <HeaderView 
-        title={isInPerson ? "In Person Events" : "Online Events"} 
+        title="All Events"
         leftComponent={<BackButtonView onPress={() => {navigation.goBack();}}/>}
       />
       <InPersonOnlineToggle/>
