@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import FireClient from '../FireClient'
@@ -15,6 +15,22 @@ export default function MapScreen({navigation}) {
     mapRef.current.fitToSuppliedMarkers(mapIDs, {animated: true, edgePadding: {top: 200, right: 200, bottom: 200, left: 200}});
   }
 
+  const requestAndroidLocationPerms = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+        title: 'SSS-App Location Permission',
+        message: 'SSS-App needs your location to display it on the map',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      });
+      return granted === PermissionsAndroid.RESULTS.GRANTED
+    }
+    catch (error) {
+      return false;
+    }
+  }
+
   useEffect(() => {
     const navigationUnsubscriber = navigation.addListener("tabPress", (e) => {
       const history = navigation.getState().history;
@@ -25,6 +41,9 @@ export default function MapScreen({navigation}) {
 
     timeoutRef.current = setTimeout(() => {
       zoomToMarkers();
+      if (Platform.OS === 'android') {
+        requestAndroidLocationPerms();
+      }
     }, 100);
 
     const unsubscribe = () => {
