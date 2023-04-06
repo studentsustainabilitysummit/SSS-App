@@ -12,7 +12,15 @@ export default function MapScreen({navigation}) {
   const mapIDs = fireClient.locationsList.map(location => location.id);
 
   const zoomToMarkers = () => {
-    mapRef.current.fitToSuppliedMarkers(mapIDs, {animated: true, edgePadding: {top: 200, right: 200, bottom: 200, left: 200}});
+    mapRef.current.fitToSuppliedMarkers(mapIDs, {
+      animated: true,
+      edgePadding: {
+        top: Platform.OS === 'android' ? 200: 100,
+        right: Platform.OS === 'android' ? 200: 100,
+        bottom: Platform.OS === 'android' ? 200: 100,
+        left: Platform.OS === 'android' ? 200: 100
+      }
+    });
   }
 
   const requestAndroidLocationPerms = async () => {
