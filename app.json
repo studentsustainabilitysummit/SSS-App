@@ -2,7 +2,7 @@
   "expo": {
     "name": "SSS-App",
     "slug": "SSS-App",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "org.studentsustainabilitysummit.SSSApp",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
