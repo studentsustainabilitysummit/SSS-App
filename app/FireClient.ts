@@ -69,7 +69,7 @@ export default class FireClient {
 
     async onAuthStatusChanged(user: FirebaseAuthTypes.User) {
         this.user = user;
-        if(user) {
+        if(user && user.emailVerified) {
             this.userEventsDoc = firestore().collection("UserEvent").doc(this.user.uid);
             await this.userEventsDoc.get().then(this.updateUserEvents);
             this.userEventsDocSubscriber = this.userEventsDoc.onSnapshot(this.updateUserEvents);
@@ -88,7 +88,7 @@ export default class FireClient {
     }
 
     async signOut() {
-        this.userEventsDocSubscriber();
+        this.userEventsDocSubscriber && this.userEventsDocSubscriber();
         this.userEvents = [];
         this.userEventsDoc = null;
         await auth().signOut();
