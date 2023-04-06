@@ -47,7 +47,7 @@ export default function MapScreen({navigation}) {
           }}
           provider='google'
           ref={mapRef} 
-          showUserLocation={true}
+          showsUserLocation={true}
       >
         {fireClient.locationsList.map((location, index) => (
             <Marker
